@@ -23,7 +23,7 @@ namespace pweb1920
                       "~/Scripts/bootstrap.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      "~/Content/bootstrap_cosmo.css",
                       "~/Content/site.css"));
         }
     }

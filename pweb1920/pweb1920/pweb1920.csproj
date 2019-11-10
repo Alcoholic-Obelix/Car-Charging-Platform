@@ -8,7 +8,7 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{02EFEE5A-6D1C-4DC2-BE38-DDE25445771E}</ProjectGuid>
+    <ProjectGuid>{20E7B6CD-9D98-4D29-8ACF-B60AD22DABB2}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -18,7 +18,7 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>44337</IISExpressSSLPort>
+    <IISExpressSSLPort>44398</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -170,12 +170,44 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ClientsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="DAL\ChargingMode.cs">
+      <DependentUpon>ERDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\ChargingPoint.cs">
+      <DependentUpon>ERDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Client.cs">
+      <DependentUpon>ERDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Company.cs">
+      <DependentUpon>ERDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\ERDataModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ERDataModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\ERDataModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ERDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\ERDataModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ERDataModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\PriceHour.cs">
+      <DependentUpon>ERDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Reservation.cs">
+      <DependentUpon>ERDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Station.cs">
+      <DependentUpon>ERDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -187,14 +219,26 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Database.mdf" />
-    <Content Include="App_Data\Database_log.ldf">
-      <DependentUpon>Database.mdf</DependentUpon>
+    <Content Include="App_Data\CarChargeDb.mdf" />
+    <Content Include="App_Data\CarChargeDb_log.ldf">
+      <DependentUpon>CarChargeDb.mdf</DependentUpon>
     </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap_cosmo.css" />
+    <Content Include="DAL\ERDataModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ERDataModel.Context.cs</LastGenOutput>
+      <DependentUpon>ERDataModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="DAL\ERDataModel.edmx.sql" />
+    <Content Include="DAL\ERDataModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ERDataModel.cs</LastGenOutput>
+      <DependentUpon>ERDataModel.edmx</DependentUpon>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -253,8 +297,15 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Clients\Create.cshtml" />
+    <Content Include="Views\Clients\Delete.cshtml" />
+    <Content Include="Views\Clients\Details.cshtml" />
+    <Content Include="Views\Clients\Edit.cshtml" />
+    <Content Include="Views\Clients\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -284,9 +335,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>52357</DevelopmentServerPort>
+          <DevelopmentServerPort>49841</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44337/</IISUrl>
+          <IISUrl>https://localhost:44398/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

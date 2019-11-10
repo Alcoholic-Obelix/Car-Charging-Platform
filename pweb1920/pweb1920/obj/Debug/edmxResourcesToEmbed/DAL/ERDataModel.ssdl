@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ERDataModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ERDataModelStoreContainer">
+    <EntitySet Name="Companies" EntityType="ERDataModel.Store.Companies" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Stations" EntityType="ERDataModel.Store.Stations" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ChargingPoints" EntityType="ERDataModel.Store.ChargingPoints" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ChargingModes" EntityType="ERDataModel.Store.ChargingModes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Reservations" EntityType="ERDataModel.Store.Reservations" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PriceHours" EntityType="ERDataModel.Store.PriceHours" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Clients" EntityType="ERDataModel.Store.Clients" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ChargingPointChargingMode" EntityType="ERDataModel.Store.ChargingPointChargingMode" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="StationCompany" Association="ERDataModel.Store.StationCompany">
+      <End Role="Station" EntitySet="Stations" />
+      <End Role="Company" EntitySet="Companies" />
+    </AssociationSet>
+    <AssociationSet Name="StationChargingPoint" Association="ERDataModel.Store.StationChargingPoint">
+      <End Role="Station" EntitySet="Stations" />
+      <End Role="ChargingPoint" EntitySet="ChargingPoints" />
+    </AssociationSet>
+    <AssociationSet Name="ChargingPointReservation" Association="ERDataModel.Store.ChargingPointReservation">
+      <End Role="ChargingPoint" EntitySet="ChargingPoints" />
+      <End Role="Reservation" EntitySet="Reservations" />
+    </AssociationSet>
+    <AssociationSet Name="ClientReservation" Association="ERDataModel.Store.ClientReservation">
+      <End Role="Client" EntitySet="Clients" />
+      <End Role="Reservation" EntitySet="Reservations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ChargingPointChargingMode_ChargingPoint" Association="ERDataModel.Store.FK_ChargingPointChargingMode_ChargingPoint">
+      <End Role="ChargingPoint" EntitySet="ChargingPoints" />
+      <End Role="ChargingPointChargingMode" EntitySet="ChargingPointChargingMode" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ChargingPointChargingMode_ChargingMode" Association="ERDataModel.Store.FK_ChargingPointChargingMode_ChargingMode">
+      <End Role="ChargingMode" EntitySet="ChargingModes" />
+      <End Role="ChargingPointChargingMode" EntitySet="ChargingPointChargingMode" />
+    </AssociationSet>
+    <AssociationSet Name="ChargingModeReservation" Association="ERDataModel.Store.ChargingModeReservation">
+      <End Role="ChargingMode" EntitySet="ChargingModes" />
+      <End Role="Reservation" EntitySet="Reservations" />
+    </AssociationSet>
+    <AssociationSet Name="StationPriceHour" Association="ERDataModel.Store.StationPriceHour">
+      <End Role="Station" EntitySet="Stations" />
+      <End Role="PriceHour" EntitySet="PriceHours" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Companies">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="NIF" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Stations">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="StreetAdress" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="City" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="District" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Companies_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ChargingPoints">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Station_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ChargingModes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Multiplier" Type="float" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Reservations">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TimeStart" Type="time" Nullable="false" Precision="7" />
+    <Property Name="TimeFinish" Type="time" Nullable="false" Precision="7" />
+    <Property Name="ServiceCode" Type="bigint" Nullable="false" />
+    <Property Name="EstimatedCost" Type="float" Nullable="false" />
+    <Property Name="ChargingPoint_Id" Type="int" Nullable="false" />
+    <Property Name="Client_Id" Type="int" Nullable="false" />
+    <Property Name="ChargingMode_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PriceHours">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FromTime" Type="time" Nullable="false" Precision="7" />
+    <Property Name="ToTime" Type="time" Nullable="false" Precision="7" />
+    <Property Name="Price" Type="float" Nullable="false" />
+    <Property Name="Station_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Clients">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="NIF" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ChargingPointChargingMode">
+    <Key>
+      <PropertyRef Name="ChargingPoint_Id" />
+      <PropertyRef Name="ChargingModes_Id" />
+    </Key>
+    <Property Name="ChargingPoint_Id" Type="int" Nullable="false" />
+    <Property Name="ChargingModes_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="StationCompany">
+    <End Role="Station" Type="ERDataModel.Store.Stations" Multiplicity="*" />
+    <End Role="Company" Type="ERDataModel.Store.Companies" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Station">
+        <PropertyRef Name="Companies_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="StationChargingPoint">
+    <End Role="Station" Type="ERDataModel.Store.Stations" Multiplicity="1" />
+    <End Role="ChargingPoint" Type="ERDataModel.Store.ChargingPoints" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Station">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ChargingPoint">
+        <PropertyRef Name="Station_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ChargingPointReservation">
+    <End Role="ChargingPoint" Type="ERDataModel.Store.ChargingPoints" Multiplicity="1" />
+    <End Role="Reservation" Type="ERDataModel.Store.Reservations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ChargingPoint">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Reservation">
+        <PropertyRef Name="ChargingPoint_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ClientReservation">
+    <End Role="Client" Type="ERDataModel.Store.Clients" Multiplicity="1" />
+    <End Role="Reservation" Type="ERDataModel.Store.Reservations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Client">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Reservation">
+        <PropertyRef Name="Client_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ChargingModeReservation">
+    <End Role="ChargingMode" Type="ERDataModel.Store.ChargingModes" Multiplicity="1" />
+    <End Role="Reservation" Type="ERDataModel.Store.Reservations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ChargingMode">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Reservation">
+        <PropertyRef Name="ChargingMode_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="StationPriceHour">
+    <End Role="Station" Type="ERDataModel.Store.Stations" Multiplicity="1" />
+    <End Role="PriceHour" Type="ERDataModel.Store.PriceHours" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Station">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PriceHour">
+        <PropertyRef Name="Station_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ChargingPointChargingMode_ChargingPoint">
+    <End Role="ChargingPoint" Type="ERDataModel.Store.ChargingPoints" Multiplicity="1" />
+    <End Role="ChargingPointChargingMode" Type="ERDataModel.Store.ChargingPointChargingMode" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ChargingPoint">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ChargingPointChargingMode">
+        <PropertyRef Name="ChargingPoint_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ChargingPointChargingMode_ChargingMode">
+    <End Role="ChargingPointChargingMode" Type="ERDataModel.Store.ChargingPointChargingMode" Multiplicity="*" />
+    <End Role="ChargingMode" Type="ERDataModel.Store.ChargingModes" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="ChargingMode">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ChargingPointChargingMode">
+        <PropertyRef Name="ChargingModes_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

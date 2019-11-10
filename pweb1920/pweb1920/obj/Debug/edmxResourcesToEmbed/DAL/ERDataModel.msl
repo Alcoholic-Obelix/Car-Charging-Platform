@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ERDataModelStoreContainer" CdmEntityContainer="ERDataModelContainer">
+    <EntitySetMapping Name="Companies">
+      <EntityTypeMapping TypeName="IsTypeOf(ERDataModel.Company)">
+        <MappingFragment StoreEntitySet="Companies">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="NIF" ColumnName="NIF" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Stations">
+      <EntityTypeMapping TypeName="IsTypeOf(ERDataModel.Station)">
+        <MappingFragment StoreEntitySet="Stations">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="StreetAdress" ColumnName="StreetAdress" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="District" ColumnName="District" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ChargingPoints">
+      <EntityTypeMapping TypeName="IsTypeOf(ERDataModel.ChargingPoint)">
+        <MappingFragment StoreEntitySet="ChargingPoints">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ChargingModes">
+      <EntityTypeMapping TypeName="IsTypeOf(ERDataModel.ChargingMode)">
+        <MappingFragment StoreEntitySet="ChargingModes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Multiplier" ColumnName="Multiplier" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Reservations">
+      <EntityTypeMapping TypeName="IsTypeOf(ERDataModel.Reservation)">
+        <MappingFragment StoreEntitySet="Reservations">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="TimeStart" ColumnName="TimeStart" />
+          <ScalarProperty Name="TimeFinish" ColumnName="TimeFinish" />
+          <ScalarProperty Name="ServiceCode" ColumnName="ServiceCode" />
+          <ScalarProperty Name="EstimatedCost" ColumnName="EstimatedCost" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PriceHours">
+      <EntityTypeMapping TypeName="IsTypeOf(ERDataModel.PriceHour)">
+        <MappingFragment StoreEntitySet="PriceHours">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FromTime" ColumnName="FromTime" />
+          <ScalarProperty Name="ToTime" ColumnName="ToTime" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Clients">
+      <EntityTypeMapping TypeName="IsTypeOf(ERDataModel.Client)">
+        <MappingFragment StoreEntitySet="Clients">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="NIF" ColumnName="NIF" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="StationCompany" TypeName="ERDataModel.StationCompany" StoreEntitySet="Stations">
+      <EndProperty Name="Company">
+        <ScalarProperty Name="Id" ColumnName="Companies_Id" />
+      </EndProperty>
+      <EndProperty Name="Station">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="StationChargingPoint" TypeName="ERDataModel.StationChargingPoint" StoreEntitySet="ChargingPoints">
+      <EndProperty Name="Station">
+        <ScalarProperty Name="Id" ColumnName="Station_Id" />
+      </EndProperty>
+      <EndProperty Name="ChargingPoint">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ChargingPointReservation" TypeName="ERDataModel.ChargingPointReservation" StoreEntitySet="Reservations">
+      <EndProperty Name="ChargingPoint">
+        <ScalarProperty Name="Id" ColumnName="ChargingPoint_Id" />
+      </EndProperty>
+      <EndProperty Name="Reservation">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ClientReservation" TypeName="ERDataModel.ClientReservation" StoreEntitySet="Reservations">
+      <EndProperty Name="Client">
+        <ScalarProperty Name="Id" ColumnName="Client_Id" />
+      </EndProperty>
+      <EndProperty Name="Reservation">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ChargingPointChargingMode" TypeName="ERDataModel.ChargingPointChargingMode" StoreEntitySet="ChargingPointChargingMode">
+      <EndProperty Name="ChargingPoint">
+        <ScalarProperty Name="Id" ColumnName="ChargingPoint_Id" />
+      </EndProperty>
+      <EndProperty Name="ChargingMode">
+        <ScalarProperty Name="Id" ColumnName="ChargingModes_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ChargingModeReservation" TypeName="ERDataModel.ChargingModeReservation" StoreEntitySet="Reservations">
+      <EndProperty Name="ChargingMode">
+        <ScalarProperty Name="Id" ColumnName="ChargingMode_Id" />
+      </EndProperty>
+      <EndProperty Name="Reservation">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="StationPriceHour" TypeName="ERDataModel.StationPriceHour" StoreEntitySet="PriceHours">
+      <EndProperty Name="Station">
+        <ScalarProperty Name="Id" ColumnName="Station_Id" />
+      </EndProperty>
+      <EndProperty Name="PriceHour">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

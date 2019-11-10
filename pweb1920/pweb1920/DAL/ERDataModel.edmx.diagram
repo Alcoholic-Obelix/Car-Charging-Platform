@@ -4,13 +4,21 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="be3f36adcfc44cd1881f0fd2d5db3094" Name="Diagram1" >
-        <EntityTypeShape EntityType="ERDataModel.Company" Width="1.5" PointX="3" PointY="1.125" />
-        <EntityTypeShape EntityType="ERDataModel.Station" Width="1.5" PointX="4.875" PointY="1.125" />
-        <EntityTypeShape EntityType="ERDataModel.ChargingPoint" Width="1.5" PointX="10.875" PointY="1.375" />
-        <EntityTypeShape EntityType="ERDataModel.ChargingMode" Width="1.5" PointX="9" PointY="1.5" />
-        <EntityTypeShape EntityType="ERDataModel.Reservation" Width="1.5" PointX="7" PointY="1.375" />
-        <EntityTypeShape EntityType="ERDataModel.PriceHour" Width="1.5" PointX="1.375" PointY="1.125" />
+      <Diagram DiagramId="be3f36adcfc44cd1881f0fd2d5db3094" Name="Diagram1" ZoomLevel="82" >
+        <EntityTypeShape EntityType="ERDataModel.Company" Width="1.5" PointX="0.5" PointY="0.5" />
+        <EntityTypeShape EntityType="ERDataModel.Station" Width="1.5" PointX="2.75" PointY="0.5" />
+        <EntityTypeShape EntityType="ERDataModel.ChargingPoint" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ERDataModel.ChargingMode" Width="1.5" PointX="6.5" PointY="4" />
+        <EntityTypeShape EntityType="ERDataModel.Reservation" Width="1.5" PointX="8.125" PointY="0.75" />
+        <EntityTypeShape EntityType="ERDataModel.PriceHour" Width="1.5" PointX="2.625" PointY="3.875" />
+        <AssociationConnector Association="ERDataModel.StationCompany" />
+        <AssociationConnector Association="ERDataModel.StationChargingPoint" />
+        <AssociationConnector Association="ERDataModel.ChargingPointReservation" />
+        <EntityTypeShape EntityType="ERDataModel.Client" Width="1.5" PointX="10.5" PointY="1" />
+        <AssociationConnector Association="ERDataModel.ClientReservation" />
+        <AssociationConnector Association="ERDataModel.ChargingPointChargingMode" />
+        <AssociationConnector Association="ERDataModel.ChargingModeReservation" />
+        <AssociationConnector Association="ERDataModel.StationPriceHour" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
