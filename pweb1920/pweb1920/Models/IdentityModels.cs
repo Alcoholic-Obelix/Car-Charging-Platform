@@ -29,7 +29,5 @@ namespace pweb1920.Models
         {
             return new ApplicationDbContext();
         }
-
-        public System.Data.Entity.DbSet<pweb1920.DAL.Client> Clients { get; set; }
     }
 }

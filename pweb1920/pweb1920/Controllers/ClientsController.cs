@@ -7,13 +7,12 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using pweb1920.DAL;
-using pweb1920.Models;
 
 namespace pweb1920.Controllers
 {
     public class ClientsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ERDataModelContainer db = new ERDataModelContainer();
 
         // GET: Clients
         public ActionResult Index()

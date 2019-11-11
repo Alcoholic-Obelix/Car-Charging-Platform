@@ -7,6 +7,7 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="NIF" ColumnName="NIF" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -18,6 +19,7 @@
           <ScalarProperty Name="StreetAdress" ColumnName="StreetAdress" />
           <ScalarProperty Name="City" ColumnName="City" />
           <ScalarProperty Name="District" ColumnName="District" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -25,6 +27,7 @@
       <EntityTypeMapping TypeName="IsTypeOf(ERDataModel.ChargingPoint)">
         <MappingFragment StoreEntitySet="ChargingPoints">
           <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -46,6 +49,7 @@
           <ScalarProperty Name="TimeFinish" ColumnName="TimeFinish" />
           <ScalarProperty Name="ServiceCode" ColumnName="ServiceCode" />
           <ScalarProperty Name="EstimatedCost" ColumnName="EstimatedCost" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

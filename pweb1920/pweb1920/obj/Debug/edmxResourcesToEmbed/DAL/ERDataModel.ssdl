@@ -49,6 +49,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="NIF" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="Stations">
     <Key>
@@ -59,6 +60,7 @@
     <Property Name="StreetAdress" Type="nvarchar(max)" Nullable="false" />
     <Property Name="City" Type="nvarchar(max)" Nullable="false" />
     <Property Name="District" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Companies_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ChargingPoints">
@@ -66,6 +68,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Station_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ChargingModes">
@@ -86,6 +89,7 @@
     <Property Name="TimeFinish" Type="time" Nullable="false" Precision="7" />
     <Property Name="ServiceCode" Type="bigint" Nullable="false" />
     <Property Name="EstimatedCost" Type="float" Nullable="false" />
+    <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
     <Property Name="ChargingPoint_Id" Type="int" Nullable="false" />
     <Property Name="Client_Id" Type="int" Nullable="false" />
     <Property Name="ChargingMode_Id" Type="int" Nullable="false" />
