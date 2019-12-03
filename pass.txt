@@ -1,1 +1,3 @@
 admin@admin.pt Admin+1
+manager@manager.pt Manager+1
+client@client.pt Client+1
