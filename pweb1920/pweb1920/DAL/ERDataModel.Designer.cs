@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\a21240456\Desktop\pweb1920\pweb1920\DAL\ERDataModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\ricar\OneDrive - ISEC\ISEC\cadeiras\programacaoweb\Car-Charging-Platform\pweb1920\pweb1920\DAL\ERDataModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.
