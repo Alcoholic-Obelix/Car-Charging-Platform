@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/11/2019 04:26:18
--- Generated from EDMX file: C:\Users\a21240456\Desktop\pweb1920\pweb1920\DAL\ERDataModel.edmx
+-- Date Created: 12/04/2019 00:20:47
+-- Generated from EDMX file: C:\Users\ricar\OneDrive - ISEC\ISEC\cadeiras\programacaoweb\Car-Charging-Platform\pweb1920\pweb1920\DAL\ERDataModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [C:\Users\a21240456\Desktop\pweb1920\pweb1920\App_Data\CarChargeDb.mdf];
+USE [C:\Users\ricar\OneDrive - ISEC\ISEC\cadeiras\programacaoweb\Car-Charging-Platform\pweb1920\pweb1920\App_Data\CarChargeDb.mdf];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -141,7 +141,8 @@ GO
 CREATE TABLE [dbo].[Clients] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
-    [NIF] nvarchar(max)  NOT NULL
+    [NIF] nvarchar(max)  NOT NULL,
+    [IdentityId] nvarchar(max)  NOT NULL
 );
 GO
 

@@ -4,6 +4,7 @@
     <EntitySetMapping Name="Companies">
       <EntityTypeMapping TypeName="IsTypeOf(ERDataModel.Company)">
         <MappingFragment StoreEntitySet="Companies">
+          <ScalarProperty Name="IdentifyId" ColumnName="IdentifyId" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="NIF" ColumnName="NIF" />
@@ -66,9 +67,11 @@
     <EntitySetMapping Name="Clients">
       <EntityTypeMapping TypeName="IsTypeOf(ERDataModel.Client)">
         <MappingFragment StoreEntitySet="Clients">
+          <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="NIF" ColumnName="NIF" />
+          <ScalarProperty Name="IdentityId" ColumnName="IdentityId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
