@@ -84,6 +84,13 @@ namespace pweb1920.Models
         [Display(Name = "Role")]
         public string Role { get; set; }
 
+        [Required]
+        [Display(Name = "Name")]
+        public string Name { get; set; }
+
+        [Required]
+        [Display(Name = "NIF")]
+        public string NIF { get; set; }
     }
 
     public class ResetPasswordViewModel

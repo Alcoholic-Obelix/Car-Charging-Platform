@@ -24,7 +24,7 @@ namespace pweb1920.DAL
         public string Name { get; set; }
         public string NIF { get; set; }
         public string Status { get; set; }
-        public string IdentifyId { get; set; }
+        public string IdentityId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Station> Station { get; set; }
