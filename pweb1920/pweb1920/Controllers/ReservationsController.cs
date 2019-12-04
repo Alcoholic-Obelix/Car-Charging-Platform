@@ -4,8 +4,10 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using pweb1920.DAL;
 
 namespace pweb1920.Controllers
@@ -48,8 +50,20 @@ namespace pweb1920.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,TimeStart,TimeFinish,ServiceCode,EstimatedCost,Status")] Reservation reservation)
         {
+            //vai buscar o ID do utilizador atual
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            var userIdClaim = claimsIdentity.Claims
+                    .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+            var userIdValue = userIdClaim.Value;
+
             if (ModelState.IsValid)
             {
+                //vai ver qual é o cliente atual com o Id do User
+                reservation.Client = db.Clients.Where(m => m.IdentityId == userIdValue).FirstOrDefault();
+                //estas 2 é só porque não podem ser null e assim já dá para experimentar as reservations
+                reservation.ChargingMode = db.ChargingModes.Where(m => m.Id == 1).FirstOrDefault();
+                reservation.ChargingPoint = db.ChargingPoints.Where(m => m.Id == 1).FirstOrDefault();
+
                 db.Reservations.Add(reservation);
                 db.SaveChanges();
                 return RedirectToAction("Index");
