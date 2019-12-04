@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using pweb1920.DAL;
 using pweb1920.Models;
 
 namespace pweb1920.Controllers
@@ -18,6 +19,7 @@ namespace pweb1920.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ERDataModelContainer db = new ERDataModelContainer();
 
         public AccountController()
         {
@@ -161,6 +163,18 @@ namespace pweb1920.Controllers
 
                     if (result.Succeeded)
                     {
+                        if(model.Role == "Company")
+                        {
+                            var company = new Company { Name = model.Name, NIF = model.NIF, IdentityId = user.Id, Status = "Pending" };
+                            db.Companies.Add(company);
+                            db.SaveChanges();
+                        }
+                        else if (model.Role == "Client")
+                        {
+                            var client = new Client { Name = model.Name, NIF = model.NIF, IdentityId = user.Id, Status = "Accepted" };
+                            db.Clients.Add(client);
+                            db.SaveChanges();
+                        }
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                         // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771

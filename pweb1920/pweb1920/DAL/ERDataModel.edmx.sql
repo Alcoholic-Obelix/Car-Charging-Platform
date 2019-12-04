@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/04/2019 00:20:47
+-- Date Created: 12/04/2019 13:43:01
 -- Generated from EDMX file: C:\Users\ricar\OneDrive - ISEC\ISEC\cadeiras\programacaoweb\Car-Charging-Platform\pweb1920\pweb1920\DAL\ERDataModel.edmx
 -- --------------------------------------------------
 
@@ -17,11 +17,14 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[FK_StationCompany]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Stations] DROP CONSTRAINT [FK_StationCompany];
+IF OBJECT_ID(N'[dbo].[FK_ChargingModeReservation]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Reservations] DROP CONSTRAINT [FK_ChargingModeReservation];
 GO
-IF OBJECT_ID(N'[dbo].[FK_StationChargingPoint]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[ChargingPoints] DROP CONSTRAINT [FK_StationChargingPoint];
+IF OBJECT_ID(N'[dbo].[FK_ChargingPointChargingMode_ChargingMode]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ChargingPointChargingMode] DROP CONSTRAINT [FK_ChargingPointChargingMode_ChargingMode];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ChargingPointChargingMode_ChargingPoint]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ChargingPointChargingMode] DROP CONSTRAINT [FK_ChargingPointChargingMode_ChargingPoint];
 GO
 IF OBJECT_ID(N'[dbo].[FK_ChargingPointReservation]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Reservations] DROP CONSTRAINT [FK_ChargingPointReservation];
@@ -29,14 +32,11 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_ClientReservation]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Reservations] DROP CONSTRAINT [FK_ClientReservation];
 GO
-IF OBJECT_ID(N'[dbo].[FK_ChargingPointChargingMode_ChargingPoint]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[ChargingPointChargingMode] DROP CONSTRAINT [FK_ChargingPointChargingMode_ChargingPoint];
+IF OBJECT_ID(N'[dbo].[FK_StationChargingPoint]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ChargingPoints] DROP CONSTRAINT [FK_StationChargingPoint];
 GO
-IF OBJECT_ID(N'[dbo].[FK_ChargingPointChargingMode_ChargingMode]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[ChargingPointChargingMode] DROP CONSTRAINT [FK_ChargingPointChargingMode_ChargingMode];
-GO
-IF OBJECT_ID(N'[dbo].[FK_ChargingModeReservation]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Reservations] DROP CONSTRAINT [FK_ChargingModeReservation];
+IF OBJECT_ID(N'[dbo].[FK_StationCompany]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Stations] DROP CONSTRAINT [FK_StationCompany];
 GO
 IF OBJECT_ID(N'[dbo].[FK_StationPriceHour]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[PriceHours] DROP CONSTRAINT [FK_StationPriceHour];
@@ -46,29 +46,29 @@ GO
 -- Dropping existing tables
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[Companies]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Companies];
+IF OBJECT_ID(N'[dbo].[ChargingModes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ChargingModes];
 GO
-IF OBJECT_ID(N'[dbo].[Stations]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Stations];
+IF OBJECT_ID(N'[dbo].[ChargingPointChargingMode]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ChargingPointChargingMode];
 GO
 IF OBJECT_ID(N'[dbo].[ChargingPoints]', 'U') IS NOT NULL
     DROP TABLE [dbo].[ChargingPoints];
 GO
-IF OBJECT_ID(N'[dbo].[ChargingModes]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[ChargingModes];
+IF OBJECT_ID(N'[dbo].[Clients]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Clients];
 GO
-IF OBJECT_ID(N'[dbo].[Reservations]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Reservations];
+IF OBJECT_ID(N'[dbo].[Companies]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Companies];
 GO
 IF OBJECT_ID(N'[dbo].[PriceHours]', 'U') IS NOT NULL
     DROP TABLE [dbo].[PriceHours];
 GO
-IF OBJECT_ID(N'[dbo].[Clients]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Clients];
+IF OBJECT_ID(N'[dbo].[Reservations]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Reservations];
 GO
-IF OBJECT_ID(N'[dbo].[ChargingPointChargingMode]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[ChargingPointChargingMode];
+IF OBJECT_ID(N'[dbo].[Stations]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Stations];
 GO
 
 -- --------------------------------------------------
@@ -80,7 +80,8 @@ CREATE TABLE [dbo].[Companies] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
     [NIF] nvarchar(max)  NOT NULL,
-    [Status] nvarchar(max)  NOT NULL
+    [Status] nvarchar(max)  NOT NULL,
+    [IdentityId] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -142,7 +143,8 @@ CREATE TABLE [dbo].[Clients] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
     [NIF] nvarchar(max)  NOT NULL,
-    [IdentityId] nvarchar(max)  NOT NULL
+    [IdentityId] nvarchar(max)  NOT NULL,
+    [Status] nvarchar(max)  NOT NULL
 );
 GO
 
