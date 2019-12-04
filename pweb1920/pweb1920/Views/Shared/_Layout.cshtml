@@ -17,19 +17,30 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("iCharged U", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                    @if (Request.IsAuthenticated)
                     {
-                    <li>@Html.ActionLink("Users Admin", "Index", "UsersAdmin")</li>
-                    <li>@Html.ActionLink("Roles Admin", "Index", "RolesAdmin")</li>
+                        if (User.IsInRole("Admin"))
+                        {
+                            <li>@Html.ActionLink("Users Admin", "Index", "UsersAdmin")</li>
+                            <li>@Html.ActionLink("Roles Admin", "Index", "RolesAdmin")</li>
+                        }
+                        else if (User.IsInRole("Client"))
+                        {
+                            <li>@Html.ActionLink("Reservations", "Index", "Reservations")</li>
+                            <li>@Html.ActionLink("Stations", "Index", "Stations")</li>
+                        }
                     }
+                    else
+                    {
 
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("About", "About", "Home")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -39,7 +50,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - iCharged U</p>
         </footer>
     </div>
 
