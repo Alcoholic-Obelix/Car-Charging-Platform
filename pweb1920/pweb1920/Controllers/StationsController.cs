@@ -20,6 +20,16 @@ namespace pweb1920.Controllers
             return View(db.Stations.ToList());
         }
 
+        public ActionResult IndexDistricts()
+        {
+            return View(db.Stations.Select(e => e.District).Distinct());
+        }
+
+        public ActionResult IndexCities(string district)
+        {
+            return View(db.Stations.Where(e => e.District == district).Select(e => e.City).Distinct());
+        }
+
         // GET: Stations/Details/5
         public ActionResult Details(int? id)
         {
