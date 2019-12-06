@@ -10,5 +10,6 @@ namespace pweb1920.Models.DTO
     {
         public List<Reservation> myReservations { get; set; }
         public List<Reservation> reservationsHistory { get; set; }
+
     }
 }
