@@ -15,38 +15,30 @@ namespace pweb1920.Controllers
         private ERDataModelContainer db = new ERDataModelContainer();
 
         // GET: Stations
-        public ActionResult Index(string district, string city, )
+        public ActionResult Index()
         {
             return View(db.Stations.ToList());
         }
 
         public ActionResult IndexDistricts()
         {
-            return View(db.Stations.Select(e => e.District).Distinct());
+            return View(db.Stations.Where(e => e.Status == "Accepted").Select(e => e.District).Distinct());
         }
 
         public ActionResult IndexCities(string district)
         {
-            return View(db.Stations.Where(e => e.District == district).Select(e => e.City).Distinct());
+            return View(db.Stations.Where(e => e.Status == "Accepted").Where(e => e.District == district).Select(e => e.City).Distinct());
         }
 
         public ActionResult IndexStations(string city)
         {
-            return View(db.Stations.Where(e => e.City == city).Select(e => e.Name));
+            return View(db.Stations.Where(e => e.Status == "Accepted").Where(e => e.City == city).Select(e => e.Name));
         }
 
         // GET: Stations/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(string stationName)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Station station = db.Stations.Find(id);
-            if (station == null)
-            {
-                return HttpNotFound();
-            }
+            Station station = db.Stations.Where(e => e.Name == stationName).SingleOrDefault();
             return View(station);
         }
 
