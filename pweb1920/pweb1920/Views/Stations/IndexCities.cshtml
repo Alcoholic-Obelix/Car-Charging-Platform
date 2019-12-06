@@ -1,6 +1,10 @@
 ﻿@model IEnumerable<string>
 
-<h2>Cities</h2>
+@{
+    ViewBag.Title = "IndexCities";
+}
+
+<h2>IndexCities</h2>
 
 <table class="table">
     <tr>
@@ -14,7 +18,7 @@
     {
         <tr>
             <td>
-                @Html.ActionLink(item.ToString(), "IndexCities", item.ToString())
+                @Html.ActionLink(item.ToString(), "IndexStations", "Stations", new { city = item.ToString() }, null)
 
             </td>
         </tr>
