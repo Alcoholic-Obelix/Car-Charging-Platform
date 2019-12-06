@@ -1,0 +1,27 @@
+﻿@model IEnumerable<string>
+
+@{
+    ViewBag.Title = "IndexStations";
+}
+
+<h2>IndexStation</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Stations
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.ToString(), "IndexStations", "Stations", new { district = item.ToString() }, null)
+
+            </td>
+        </tr>
+    }
+
+</table>

@@ -15,7 +15,7 @@ namespace pweb1920.Controllers
         private ERDataModelContainer db = new ERDataModelContainer();
 
         // GET: Stations
-        public ActionResult Index()
+        public ActionResult Index(string district, string city, )
         {
             return View(db.Stations.ToList());
         }
@@ -28,6 +28,11 @@ namespace pweb1920.Controllers
         public ActionResult IndexCities(string district)
         {
             return View(db.Stations.Where(e => e.District == district).Select(e => e.City).Distinct());
+        }
+
+        public ActionResult IndexStations(string city)
+        {
+            return View(db.Stations.Where(e => e.City == city).Select(e => e.Name));
         }
 
         // GET: Stations/Details/5
