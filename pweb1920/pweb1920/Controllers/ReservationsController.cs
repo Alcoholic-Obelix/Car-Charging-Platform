@@ -7,8 +7,10 @@ using System.Net;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using pweb1920.DAL;
+using pweb1920.Models.DTO;
 
 namespace pweb1920.Controllers
 {
@@ -40,7 +42,20 @@ namespace pweb1920.Controllers
         // GET: Reservations/Create
         public ActionResult Create()
         {
-            return View();
+            var dropDownDistrict = new List<SelectListItem>();
+            var stations = db.Stations.Where(e => e.Status == "Accepted").DistinctBy(e => e.District).ToList();
+
+            foreach (Station item in stations) {
+                var listItem = new SelectListItem { Text = item.District.t, Value = item.District };
+                dropDownDistrict.Add(listItem);
+            }
+
+            var dto = new CreateReservationDTO();
+            dto.DistrictDropDown = dropDownDistrict;
+
+
+
+            return View(dto);
         }
 
         // POST: Reservations/Create
