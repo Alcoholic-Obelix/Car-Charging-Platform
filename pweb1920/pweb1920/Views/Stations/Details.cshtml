@@ -6,6 +6,12 @@
 
 <h2>Details</h2>
 
+<ol class="breadcrumb">
+    <li>@Model.District</li>
+    <li>@Model.City</li>
+    <li class="active"><a href="#">@Html.ActionLink(Model.Name, "Index", "Stations", new { district = Model.Id, city = Model.Id }, null)</a></li>
+</ol>
+
 <div>
     <h4>Station</h4>
     <hr />
@@ -54,5 +60,4 @@
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
 </p>
