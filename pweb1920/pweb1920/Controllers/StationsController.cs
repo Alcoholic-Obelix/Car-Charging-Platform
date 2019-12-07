@@ -28,11 +28,10 @@ namespace pweb1920.Controllers
             else if(city == null)
             {
                 var dto = new IndexStationDTO();
-                dto.District = db.Stations.Where(e => e.Id == district)
-                    .Select(e => e.District).FirstOrDefault().ToString();
+                dto.District = db.Stations.Find(district);
 
                 dto.Stations = db.Stations.Where(e => e.Status == "Accepted")
-                    .Where(e => e.District == dto.District)
+                    .Where(e => e.District == dto.District.District)
                     .DistinctBy(e => e.City).ToList();
 
                 return View("IndexCities", dto);
@@ -40,15 +39,13 @@ namespace pweb1920.Controllers
             else
             {
                 var dto = new IndexStationDTO();
-                dto.District = db.Stations.Where(e => e.Id == district)
-                    .Select(e => e.District).FirstOrDefault().ToString();
+                dto.District = db.Stations.Find(district);
 
-                dto.City = db.Stations.Where(e => e.Id == city)
-                    .Select(e => e.City).FirstOrDefault().ToString();
+                dto.City = db.Stations.Find(city);
 
                 dto.Stations = db.Stations.Where(e => e.Status == "Accepted")
-                    .Where(e => e.District == dto.District)
-                    .Where(e => e.City == dto.City).ToList();
+                    .Where(e => e.District == dto.District.District)
+                    .Where(e => e.City == dto.City.City).ToList();
 
                 return View("IndexStations", dto);
             }
