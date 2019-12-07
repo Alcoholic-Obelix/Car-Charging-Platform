@@ -71,6 +71,14 @@ namespace pweb1920.Controllers
             {
                 return HttpNotFound();
             }
+
+            List<SelectListItem> dropdownList = new List<SelectListItem>();
+            SelectListItem accepted = new SelectListItem {Text = "Accepted", Value = "Accepted"};
+            SelectListItem pending = new SelectListItem {Text = "Pending", Value = "Pending"};
+            dropdownList.Add(accepted);
+            dropdownList.Add(pending);
+            company.StatusDropDown = dropdownList;
+
             return View(company);
         }
 
@@ -79,16 +87,30 @@ namespace pweb1920.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,NIF,Status")] Company company)
+        public ActionResult Edit(Company company)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(company).State = EntityState.Modified;
+                var companyToChange = db.Companies.Find(company.Id);
+                companyToChange.Name = company.Name;
+                companyToChange.NIF = company.NIF;
+                companyToChange.Status = company.Status;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(company);
         }
+
+        //public ActionResult Edit([Bind(Include = "Id,Name,NIF,Status")] Company company)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Entry(company).State = EntityState.Modified;
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(company);
+        //}
 
         // GET: Companies/Delete/5
         public ActionResult Delete(int? id)
