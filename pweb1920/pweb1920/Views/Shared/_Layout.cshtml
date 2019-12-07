@@ -27,6 +27,8 @@
                         {
                             <li>@Html.ActionLink("Users Admin", "Index", "UsersAdmin")</li>
                             <li>@Html.ActionLink("Roles Admin", "Index", "RolesAdmin")</li>
+                            <li>@Html.ActionLink("Stations", "IndexDistricts", "Stations")</li>
+                            <li>@Html.ActionLink("Reservations", "Index", "Reservations")</li>
                         }
                         else if (User.IsInRole("Client"))
                         {
