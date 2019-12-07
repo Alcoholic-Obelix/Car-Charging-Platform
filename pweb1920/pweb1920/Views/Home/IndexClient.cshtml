@@ -1,8 +1,12 @@
 ﻿@model pweb1920.Models.DTO.IndexClientDTO
 
+@{
+    ViewBag.Title = "Home";
+}
+
 <style type="text/css">
     table th {
-       text-align: center; 
+        text-align: center;
     }
 </style>
 
@@ -38,23 +42,23 @@
                 <tbody>
                     @foreach (var item in Model.myReservations)
                     {
-                    <tr onclick="location.href = '@(Url.Action("Details", "Reservations", new { id = item.Id }))'" style="cursor: pointer">
-                        <td>
-                            @Html.DisplayFor(modelItem => item.TimeStart)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.TimeFinish)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ServiceCode)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.EstimatedCost)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Status)
-                        </td>
-                    </tr>
+                        <tr onclick="location.href = '@(Url.Action("Details", "Reservations", new { id = item.Id }))'" style="cursor: pointer">
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TimeStart)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TimeFinish)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ServiceCode)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EstimatedCost)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Status)
+                            </td>
+                        </tr>
                     }
                     @for (var i = 0; i < (5 - Model.myReservations.Count); i++)
                     {
