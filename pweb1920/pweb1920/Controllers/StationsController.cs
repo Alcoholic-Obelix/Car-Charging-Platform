@@ -6,7 +6,9 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using pweb1920.DAL;
+using pweb1920.Models.DTO;
 
 namespace pweb1920.Controllers
 {
@@ -15,30 +17,47 @@ namespace pweb1920.Controllers
         private ERDataModelContainer db = new ERDataModelContainer();
 
         // GET: Stations
-        public ActionResult Index()
+        public ActionResult Index(int? district, int? city)
         {
-            return View(db.Stations.ToList());
-        }
+            if(district == null && city == null) {
+                var dto = new IndexStationDTO();
+                dto.Stations = db.Stations.Where(e => e.Status == "Accepted").DistinctBy(e => e.District).ToList();
 
-        public ActionResult IndexDistricts()
-        {
-            return View(db.Stations.Where(e => e.Status == "Accepted").Select(e => e.District).Distinct());
-        }
+                return View("IndexDistricts", dto);
+            }
+            else if(city == null)
+            {
+                var dto = new IndexStationDTO();
+                dto.District = db.Stations.Where(e => e.Id == district)
+                    .Select(e => e.District).FirstOrDefault().ToString();
 
-        public ActionResult IndexCities(string district)
-        {
-            return View(db.Stations.Where(e => e.Status == "Accepted").Where(e => e.District == district).Select(e => e.City).Distinct());
-        }
+                dto.Stations = db.Stations.Where(e => e.Status == "Accepted")
+                    .Where(e => e.District == dto.District)
+                    .DistinctBy(e => e.City).ToList();
 
-        public ActionResult IndexStations(string city)
-        {
-            return View(db.Stations.Where(e => e.Status == "Accepted").Where(e => e.City == city).Select(e => e.Name));
+                return View("IndexCities", dto);
+            }
+            else
+            {
+                var dto = new IndexStationDTO();
+                dto.District = db.Stations.Where(e => e.Id == district)
+                    .Select(e => e.District).FirstOrDefault().ToString();
+
+                dto.City = db.Stations.Where(e => e.Id == city)
+                    .Select(e => e.City).FirstOrDefault().ToString();
+
+                dto.Stations = db.Stations.Where(e => e.Status == "Accepted")
+                    .Where(e => e.District == dto.District)
+                    .Where(e => e.City == dto.City).ToList();
+
+                return View("IndexStations", dto);
+            }
         }
 
         // GET: Stations/Details/5
-        public ActionResult Details(string stationName)
+        public ActionResult Details(int id)
         {
-            Station station = db.Stations.Where(e => e.Name == stationName).SingleOrDefault();
+            Station station = db.Stations.Find(id);
             return View(station);
         }
 
