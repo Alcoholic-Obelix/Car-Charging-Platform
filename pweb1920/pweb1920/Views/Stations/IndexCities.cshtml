@@ -1,10 +1,10 @@
-﻿@model IEnumerable<string>
+﻿@model pweb1920.Models.DTO.IndexStationDTO
 
 @{
-    ViewBag.Title = "IndexCities";
+    ViewBag.Title = "Cities";
 }
 
-<h2>IndexCities</h2>
+<h2>Cities</h2>
 
 <table class="table">
     <tr>
@@ -14,11 +14,11 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.Stations)
     {
         <tr>
             <td>
-                @Html.ActionLink(item.ToString(), "IndexStations", "Stations", new { city = item.ToString() }, null)
+                @Html.ActionLink(item.City.ToString(), "Index", "Stations", new { district = item.Id, city = item.Id }, null)
 
             </td>
         </tr>
