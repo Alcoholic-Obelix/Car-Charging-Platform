@@ -16,17 +16,27 @@ namespace pweb1920.Controllers
     {
         private ERDataModelContainer db = new ERDataModelContainer();
 
-        // GET: Stations
-        public ActionResult Index(int? district, int? city)
+        public ActionResult Index()
         {
-            if(district == null && city == null) {
+            ViewBag.Title = "Stations";
+            return View(db.Stations.ToList());
+        }
+
+        // GET: Stations
+        public ActionResult Search(int? district, int? city)
+        {
+            ViewBag.Title = "Search Stations";
+            if (district == null && city == null)
+            {
+
                 var dto = new IndexStationDTO();
                 dto.Stations = db.Stations.Where(e => e.Status == "Accepted").DistinctBy(e => e.District).ToList();
 
-                return View("IndexDistricts", dto);
+                return View("SearchByDistricts", dto);
             }
             else if(city == null)
             {
+
                 var dto = new IndexStationDTO();
                 dto.SelectedDistrict = db.Stations.Find(district);
 
@@ -34,10 +44,11 @@ namespace pweb1920.Controllers
                     .Where(e => e.District == dto.SelectedDistrict.District)
                     .DistinctBy(e => e.City).ToList();
 
-                return View("IndexCities", dto);
+                return View("SearchByCities", dto);
             }
             else
             {
+
                 var dto = new IndexStationDTO();
                 dto.SelectedDistrict = db.Stations.Find(district);
 
@@ -47,7 +58,7 @@ namespace pweb1920.Controllers
                     .Where(e => e.District == dto.SelectedDistrict.District)
                     .Where(e => e.City == dto.SelectedCity.City).ToList();
 
-                return View("IndexStations", dto);
+                return View("SearchByStations", dto);
             }
         }
 

@@ -1,0 +1,27 @@
+﻿@model pweb1920.Models.DTO.IndexStationDTO
+
+<h2>Stations</h2>
+<h4>@ViewBag.Title</h4>
+
+<ol class="breadcrumb">
+    <li class="active">@Html.ActionLink(Model.SelectedDistrict.District, "Search", "Stations")</li>
+</ol>
+<table class="table">
+    <tr>
+        <th>
+            City
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Stations)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.City.ToString(), "Search", "Stations", new { district = item.Id, city = item.Id }, null)
+
+            </td>
+        </tr>
+    }
+
+</table>

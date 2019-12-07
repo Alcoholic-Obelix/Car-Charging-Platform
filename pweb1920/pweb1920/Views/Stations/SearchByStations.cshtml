@@ -1,0 +1,28 @@
+﻿@model pweb1920.Models.DTO.IndexStationDTO
+
+<div class="page-header">
+    <h2>Stations <small>[@ViewBag.Title]</small></h2>
+</div>
+
+<ol class="breadcrumb">
+    <li>@Model.SelectedDistrict.District</li>
+    <li class="active"><a href="#">@Html.ActionLink(Model.SelectedCity.City, "Search", "Stations", new { district = Model.SelectedDistrict.Id }, null)</a></li>
+</ol>
+<table class="table">
+    <tr>
+        <th>
+            Station
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Stations)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.Name.ToString(), "Details", "Stations", new { id = item.Id }, null)
+            </td>
+        </tr>
+    }
+
+</table>

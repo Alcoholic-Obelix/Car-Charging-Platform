@@ -22,3 +22,9 @@ select,
 textarea {
     max-width: 280px;
 }
+
+
+/* MY CSS */
+table th {
+    text-align: center;
+}
