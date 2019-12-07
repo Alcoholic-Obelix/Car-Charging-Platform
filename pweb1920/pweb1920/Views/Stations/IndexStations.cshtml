@@ -7,8 +7,8 @@
 <h2>Stations</h2>
 
 <ol class="breadcrumb">
-    <li>@Model.District.District</li>
-    <li class="active"><a href="#">@Html.ActionLink(Model.City.City, "Index", "Stations", new { district = Model.District.Id }, null)</a></li>
+    <li>@Model.SelectedDistrict.District</li>
+    <li class="active"><a href="#">@Html.ActionLink(Model.SelectedCity.City, "Index", "Stations", new { district = Model.SelectedDistrict.Id }, null)</a></li>
 </ol>
 <table class="table">
     <tr>

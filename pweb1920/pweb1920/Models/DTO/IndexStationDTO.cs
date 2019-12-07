@@ -8,8 +8,8 @@ namespace pweb1920.Models.DTO
 {
     public class IndexStationDTO
     {
-        public Station District { get; set; }
-        public Station City { get; set; }
+        public Station SelectedDistrict { get; set; }
+        public Station SelectedCity { get; set; }
         public List<Station> Stations { get; set; }
     }
 }
