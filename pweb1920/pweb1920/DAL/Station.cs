@@ -27,6 +27,8 @@ namespace pweb1920.DAL
         public string City { get; set; }
         public string District { get; set; }
         public string Status { get; set; }
+        public System.TimeSpan OpenTime { get; set; }
+        public System.TimeSpan CloseTime { get; set; }
     
         public virtual Company Companies { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
