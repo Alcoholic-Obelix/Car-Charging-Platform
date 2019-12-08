@@ -28,3 +28,11 @@ textarea {
 table th {
     text-align: center;
 }
+
+tr[onclick]:hover {
+    background: #f5f5f5;
+}
+
+ol.breadcrumb {
+    margin-bottom: 0px;
+}

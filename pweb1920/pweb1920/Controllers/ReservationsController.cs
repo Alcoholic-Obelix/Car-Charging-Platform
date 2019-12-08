@@ -73,6 +73,7 @@ namespace pweb1920.Controllers
         }
 
         // GET: Reservations/Edit/5
+        [Authorize(Roles = "Admin, Company")]
         public ActionResult Edit(int? id)
         {
             if (id == null)

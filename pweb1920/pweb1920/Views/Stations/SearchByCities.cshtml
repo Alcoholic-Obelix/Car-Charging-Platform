@@ -1,27 +1,44 @@
 ﻿@model pweb1920.Models.DTO.IndexStationDTO
 
-<h2>Stations</h2>
-<h4>@ViewBag.Title</h4>
-
-<ol class="breadcrumb">
-    <li class="active">@Html.ActionLink(Model.SelectedDistrict.District, "Search", "Stations")</li>
-</ol>
-<table class="table">
-    <tr>
-        <th>
-            City
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model.Stations)
-    {
-        <tr>
-            <td>
-                @Html.ActionLink(item.City.ToString(), "Search", "Stations", new { district = item.Id, city = item.Id }, null)
-
-            </td>
-        </tr>
-    }
-
-</table>
+<div class="row">
+    <div class="col-md-12">
+        <h2>
+            Search
+            <small>by Cities</small>
+        </h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Search", "Stations")">
+                    <span class="glyphicon glyphicon-list"></span>
+                </a>
+            </li>
+            <li class="active">
+                @Model.SelectedDistrict.District
+            </li>
+        </ol>
+        <div class="table-responsive">
+            <table class="table table-bordered text-center">
+                <thead>
+                    <tr>
+                        <th>
+                            City
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Stations)
+                    {
+                        <tr onclick="location.href = '@(Url.Action("Search", "Stations", new { district = item.Id, city = item.Id }))'" style="cursor: pointer" class="row-hover">
+                            <td>
+                                @Html.DisplayFor(modelItem => item.City)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <a class="btn btn-primary btn-sm pull-right" href="@Url.Action("Index", "Stations")" role="button">
+            <span class="glyphicon glyphicon-share-alt"></span> Back to List
+        </a>
+    </div>
+</div>

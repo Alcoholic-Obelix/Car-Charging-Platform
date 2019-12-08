@@ -10,7 +10,7 @@
             <span>Reservations</span>
         </h2>
         <div class="table-responsive">
-            <table class="table table-bordered table-hover text-center">
+            <table class="table table-bordered text-center">
                 <thead>
                     <tr>
                         <th>
@@ -25,15 +25,12 @@
                         <th>
                             @Html.DisplayNameFor(model => model.EstimatedCost)
                         </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Status)
-                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
+                        <tr onclick="location.href = '@(Url.Action("Details", "Reservations", new { id = item.Id }))'" style="cursor: pointer" class="row-hover">
                             <td>
                                 @Html.DisplayFor(modelItem => item.TimeStart)
                             </td>
@@ -46,8 +43,22 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.EstimatedCost)
                             </td>
+                        </tr>
+                    }
+                    @for (var i = 0; i < (10 - Model.Count()); i++)
+                    {
+                        <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Status)
+                                --
+                            </td>
+                            <td>
+                                --
+                            </td>
+                            <td>
+                                --
+                            </td>
+                            <td>
+                                --
                             </td>
                         </tr>
                     }

@@ -4,55 +4,60 @@
     ViewBag.Title = "Reservation - Details";
 }
 
-<h2>Details</h2>
+<div class="row">
+    <div class="col-md-12">
+        <h2>
+            <span>Details</span>
+            @if (!User.IsInRole("Client"))
+            {
+                <a class="btn btn-info btn-sm pull-right" href="@Url.Action("Edit", "Reservations", new { id = Model.Id })" role="button">
+                    <span class="glyphicon glyphicon glyphicon-edit"></span> Edit
+                </a>
+            }
+        </h2>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.TimeStart)
+            </dt>
 
-<div>
-    <h4>Reservation</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.TimeStart)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.TimeStart)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.TimeStart)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.TimeFinish)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TimeFinish)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.TimeFinish)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.TimeFinish)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ServiceCode)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ServiceCode)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ServiceCode)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.ServiceCode)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.EstimatedCost)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.EstimatedCost)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.EstimatedCost)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.EstimatedCost)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Status)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-
-    </dl>
+            <dd>
+                @Html.DisplayFor(model => model.Status)
+            </dd>
+        </dl>
+        <a class="btn btn-primary btn-sm pull-right" href="@Url.Action("Index", "Reservations")" role="button">
+            <span class="glyphicon glyphicon-share-alt"></span> Back to List
+        </a>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
