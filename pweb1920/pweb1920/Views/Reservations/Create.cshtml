@@ -1,72 +1,127 @@
-﻿@model pweb1920.DAL.Reservation
+﻿@model pweb1920.Models.DTO.CreateReservationDTO
 
 @{
-    ViewBag.Title = "Reservations - Create";
+    ViewBag.Title = "Create Reservation";
 }
 
-<h2>Create</h2>
+<h2>Create Reservation</h2>
 
-
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Reservation</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.TimeStart, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TimeStart, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TimeStart, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.TimeFinish, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TimeFinish, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TimeFinish, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ServiceCode, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ServiceCode, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ServiceCode, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.EstimatedCost, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EstimatedCost, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EstimatedCost, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
+<div class="form-horizontal">
+    <h4>Reserva</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.District, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.District, Model.DistrictDropDown, "Please select", new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.District, "", new { @class = "text-danger" })
         </div>
     </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.City, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.City, Model.CityDropDown, "Please select", new { @class = "form-control", disabled = "disabled" })
+            @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Station, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.Station, Model.CityDropDown, "Please select", new { @class = "form-control", disabled = "disabled" })
+            @Html.ValidationMessageFor(m => m.Station, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover text-center">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FreeReservations.FirstOrDefault().ChargingPoint.Id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FreeReservations.FirstOrDefault().TimeStart)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FreeReservations.FirstOrDefault().TimeFinish)
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.FreeReservations)
+                {
+                    <tr onclick="location.href = '@(Url.Action("Details", "Reservations", new { id = item.Id }))'" style="cursor: pointer">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ChargingPoint.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TimeStart)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TimeFinish)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#District").change(function () {
+                $.get("/Reservations/GetCities", { DistrictId: $("#District").val() }, function (data) {
+                    $("#City").empty();
+                    $("#City").attr("disabled", false);
+                    $("#City").append("<option value='" + -1 + "'>" + "--" + "</option>")
+                    $.each(data, function (index, row) {
+                        $("#City").append("<option value='" + row.Id + "'>" + row.City + "</option>")
+                    });
+                });
+            })
+
+            $("#City").change(function () {
+                $.get("/Reservations/GetStations", { CityId: $("#City").val() }, function (data) {
+                    $("#Station").empty();
+                    $("#Station").attr("disabled", false);
+                    $("#Station").append("<option value='" + -1 + "'>" + "--" + "</option>")
+                    $.each(data, function (index, row) {
+                        $("#Station").append("<option value='" + row.Id + "'>" + row.Name + "</option>")
+                    });
+                });
+            })
+        });
+    </script>
 }

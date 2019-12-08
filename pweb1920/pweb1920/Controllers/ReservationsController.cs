@@ -7,8 +7,10 @@ using System.Net;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using pweb1920.DAL;
+using pweb1920.Models.DTO;
 
 namespace pweb1920.Controllers
 {
@@ -40,8 +42,52 @@ namespace pweb1920.Controllers
         // GET: Reservations/Create
         public ActionResult Create()
         {
-            return View();
+            var dto = new CreateReservationDTO();
+
+            //Adds all Stations with distinct Districs to a List
+            var stationsList = db.Stations.Where(e => e.Status == "Accepted").DistinctBy(e => e.District).ToList();
+
+            dto.DistrictDropDown = new SelectList(stationsList, "Id", "District");
+            dto.CityDropDown = new SelectList("");
+            dto.StationDropDown = new SelectList("");
+
+            return View(dto);
         }
+
+        public JsonResult GetCities(int DistrictId)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            var station = db.Stations.Find(DistrictId);
+            var stationsList = db.Stations.Where(e => e.District == station.District).ToList();
+
+            return Json(stationsList, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetStations(int CityId)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            var station = db.Stations.Find(CityId);
+            var stationsList = db.Stations
+                .Where(e => e.District == station.District)
+                .Where(e => e.City == station.City).ToList();
+
+            return Json(stationsList, JsonRequestBehavior.AllowGet);
+        }
+
+        //public JsonResult GetFreeReservations(int StationId)
+        //{
+        //    db.Configuration.ProxyCreationEnabled = false;
+        //    var station = db.Stations.Find(StationId);
+
+        //    var openTime = s
+        //    for
+
+        //    var reservation = db.Stations
+        //        .Where(e => e.District == station.District)
+        //        .Where(e => e.City == station.City).ToList();
+
+        //    return Json(stationsList, JsonRequestBehavior.AllowGet);
+        //}
 
         // POST: Reservations/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
