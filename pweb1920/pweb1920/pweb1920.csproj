@@ -336,9 +336,9 @@
     <Content Include="Views\Stations\Details.cshtml" />
     <Content Include="Views\Stations\Edit.cshtml" />
     <Content Include="Views\Stations\Index.cshtml" />
-    <Content Include="Views\Stations\IndexDistricts.cshtml" />
-    <Content Include="Views\Stations\IndexCities.cshtml" />
-    <Content Include="Views\Stations\IndexStations.cshtml" />
+    <Content Include="Views\Stations\SearchByDistricts.cshtml" />
+    <Content Include="Views\Stations\SearchByCities.cshtml" />
+    <Content Include="Views\Stations\SearchByStations.cshtml" />
     <Content Include="Views\Companies\Create.cshtml" />
     <Content Include="Views\Companies\Delete.cshtml" />
     <Content Include="Views\Companies\Details.cshtml" />

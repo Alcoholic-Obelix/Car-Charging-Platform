@@ -1,0 +1,47 @@
+﻿@model pweb1920.Models.DTO.IndexStationDTO
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2>
+                Search
+                <small>by Stations</small>
+            </h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="@Url.Action("Search", "Stations")">
+                        <span class="glyphicon glyphicon-list"></span>
+                    </a>
+                </li>
+                <li>
+                    @Html.ActionLink(Model.SelectedDistrict.District, "Search", "Stations", new { district = Model.SelectedDistrict.Id }, null)
+                </li>
+                <li class="active">
+                    @Model.SelectedCity.City
+                </li>
+            </ol>
+            <div class="table-responsive">
+                <table class="table table-bordered text-center">
+                    <thead>
+                        <tr>
+                            <th>
+                                Station
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Stations)
+                        {
+                            <tr onclick="location.href = '@(Url.Action("Details", "Stations", new { id = item.Id }))'" style="cursor: pointer" class="row-hover">
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <a class="btn btn-primary btn-sm pull-right" href="@Url.Action("Index", "Stations")" role="button">
+                <span class="glyphicon glyphicon-share-alt"></span> Back to List
+            </a>
+        </div>
+    </div>
