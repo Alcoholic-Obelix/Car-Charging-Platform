@@ -15,6 +15,8 @@
     <EntitySetMapping Name="Stations">
       <EntityTypeMapping TypeName="IsTypeOf(ERDataModel.Station)">
         <MappingFragment StoreEntitySet="Stations">
+          <ScalarProperty Name="CloseTime" ColumnName="CloseTime" />
+          <ScalarProperty Name="OpenTime" ColumnName="OpenTime" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="StreetAdress" ColumnName="StreetAdress" />

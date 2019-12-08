@@ -61,6 +61,8 @@
     <NavigationProperty Name="ChargingPoints" Relationship="ERDataModel.StationChargingPoint" FromRole="Station" ToRole="ChargingPoint" />
     <NavigationProperty Name="PriceHours" Relationship="ERDataModel.StationPriceHour" FromRole="Station" ToRole="PriceHour" />
     <Property Name="Status" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="OpenTime" Type="Time" Nullable="false" Precision="7" />
+    <Property Name="CloseTime" Type="Time" Nullable="false" Precision="7" />
   </EntityType>
   <EntityType Name="ChargingPoint">
     <Key>
