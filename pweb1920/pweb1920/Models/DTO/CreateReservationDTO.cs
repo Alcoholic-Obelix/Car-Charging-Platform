@@ -12,7 +12,9 @@ namespace pweb1920.Models.DTO
         public Station Station { get; set; }
         public List<Station> Stations { get; set; }
         public Reservation Reservation { get; set; }
-        public List<SelectListItem> DistrictDropDown { get; set; }
-        public List<SelectListItem> CityDropDown { get; set; }
+        public SelectList DistrictDropDown { get; set; }
+        public SelectList CityDropDown { get; set; }
+        public int District { get; set; }
+        public int City { get; set; }
     }
 }

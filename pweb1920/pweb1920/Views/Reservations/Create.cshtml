@@ -7,31 +7,28 @@
 <h2>Create Reservation</h2>
 
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-<div class="form-horizontal">
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+@Html.DropDownListFor(m => m.District, Model.DistrictDropDown, "Please select", new { @class = "form-control" })
+<br />
+<br />
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.Station, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(m => m., new SelectList(Model.DistrictDropDown, "Value", "Text"), null, new { @class = "form-control" })
-        </div>
-    </div>
+@Html.DropDownListFor(m => m.City, Model.CityDropDown, "Please select", new { @class = "form-control" })
+<br />
+<br />
 
-
-
-    
-</div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#District").change(function () {
+                $.get("/Reservations/GetCities", { id: $("#District").val() }, function (data) {
+                    $("#City").empty();
+                    $.each(data, function (index, row) {
+                        $("#City").append("<option value='" + row.Id + "'>" + row.City + "</option>")
+                    });
+               });
+        })
+      });
+    </script>
 }

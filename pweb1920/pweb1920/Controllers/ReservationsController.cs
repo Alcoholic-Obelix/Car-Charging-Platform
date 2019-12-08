@@ -42,20 +42,24 @@ namespace pweb1920.Controllers
         // GET: Reservations/Create
         public ActionResult Create()
         {
-            var dropDownDistrict = new List<SelectListItem>();
-            var stations = db.Stations.Where(e => e.Status == "Accepted").DistinctBy(e => e.District).ToList();
-
-            foreach (Station item in stations) {
-                var listItem = new SelectListItem { Text = item.District.t, Value = item.District };
-                dropDownDistrict.Add(listItem);
-            }
-
             var dto = new CreateReservationDTO();
-            dto.DistrictDropDown = dropDownDistrict;
 
+            //Adds all Stations with distinct Districs to a List
+            var stationsList = db.Stations.Where(e => e.Status == "Accepted").DistinctBy(e => e.District).ToList();
 
+            dto.DistrictDropDown = new SelectList(stationsList, "Id", "District");
+            dto.CityDropDown = new SelectList("");
 
             return View(dto);
+        }
+
+        public JsonResult GetCities(int id)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            var station = db.Stations.Find(id);
+            var stationsList = db.Stations.Where(e => e.District == station.District).ToList();
+
+            return Json(stationsList, JsonRequestBehavior.AllowGet);
         }
 
         // POST: Reservations/Create
