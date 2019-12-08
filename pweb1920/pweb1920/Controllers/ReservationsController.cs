@@ -50,6 +50,7 @@ namespace pweb1920.Controllers
             dto.DistrictDropDown = new SelectList(stationsList, "Id", "District");
             dto.CityDropDown = new SelectList("");
             dto.StationDropDown = new SelectList("");
+            dto.FreeReservations = new List<Reservation>();
 
             return View(dto);
         }
@@ -74,20 +75,26 @@ namespace pweb1920.Controllers
             return Json(stationsList, JsonRequestBehavior.AllowGet);
         }
 
-        //public JsonResult GetFreeReservations(int StationId)
-        //{
-        //    db.Configuration.ProxyCreationEnabled = false;
-        //    var station = db.Stations.Find(StationId);
+        public JsonResult GetFreeReservations(int StationId)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            var station = db.Stations.Find(StationId);
 
-        //    var openTime = s
-        //    for
+            var reservationsList = new List<Reservation>();
 
-        //    var reservation = db.Stations
-        //        .Where(e => e.District == station.District)
-        //        .Where(e => e.City == station.City).ToList();
+            var openTime = station.OpenTime;
+            var closeTime = station.CloseTime;
+            var timeSpan = TimeSpan.FromMinutes(30);
 
-        //    return Json(stationsList, JsonRequestBehavior.AllowGet);
-        //}
+            while(openTime <= closeTime)
+            {
+                var reservation = new Reservation() { TimeStart = openTime, TimeFinish = openTime.Add(timeSpan) };
+                reservation.ChargingPoint.Id = 1;
+                reservationsList.Add(reservation);
+            }            
+
+            return Json(reservationsList, JsonRequestBehavior.AllowGet);
+        }
 
         // POST: Reservations/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
