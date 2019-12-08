@@ -49,18 +49,45 @@ namespace pweb1920.Controllers
 
             dto.DistrictDropDown = new SelectList(stationsList, "Id", "District");
             dto.CityDropDown = new SelectList("");
+            dto.StationDropDown = new SelectList("");
 
             return View(dto);
         }
 
-        public JsonResult GetCities(int id)
+        public JsonResult GetCities(int DistrictId)
         {
             db.Configuration.ProxyCreationEnabled = false;
-            var station = db.Stations.Find(id);
+            var station = db.Stations.Find(DistrictId);
             var stationsList = db.Stations.Where(e => e.District == station.District).ToList();
 
             return Json(stationsList, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult GetStations(int CityId)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            var station = db.Stations.Find(CityId);
+            var stationsList = db.Stations
+                .Where(e => e.District == station.District)
+                .Where(e => e.City == station.City).ToList();
+
+            return Json(stationsList, JsonRequestBehavior.AllowGet);
+        }
+
+        //public JsonResult GetFreeReservations(int StationId)
+        //{
+        //    db.Configuration.ProxyCreationEnabled = false;
+        //    var station = db.Stations.Find(StationId);
+
+        //    var openTime = s
+        //    for
+
+        //    var reservation = db.Stations
+        //        .Where(e => e.District == station.District)
+        //        .Where(e => e.City == station.City).ToList();
+
+        //    return Json(stationsList, JsonRequestBehavior.AllowGet);
+        //}
 
         // POST: Reservations/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
