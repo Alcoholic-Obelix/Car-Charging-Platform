@@ -42,15 +42,12 @@ namespace pweb1920.Controllers
         // GET: Reservations/Create
         public ActionResult Create()
         {
-            var dto = new CreateReservationDTO();
+            var dto = new StartCreateDTO();
 
             //Adds all Stations with distinct Districs to a List
             var stationsList = db.Stations.Where(e => e.Status == "Accepted").DistinctBy(e => e.District).ToList();
 
             dto.DistrictDropDown = new SelectList(stationsList, "Id", "District");
-            dto.CityDropDown = new SelectList("");
-            dto.StationDropDown = new SelectList("");
-            dto.FreeReservations = new List<Reservation>();
 
             return View(dto);
         }
@@ -75,25 +72,35 @@ namespace pweb1920.Controllers
             return Json(stationsList, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetFreeReservations(int StationId)
+        //[HttpPost]
+        public ActionResult ShowFreeSlots(/*StartCreateDTO startDto*/)
         {
-            db.Configuration.ProxyCreationEnabled = false;
-            var station = db.Stations.Find(StationId);
-
+            //var station = db.Stations.Find(startDto.Station);
+            var station = db.Stations.FirstOrDefault();
             var reservationsList = new List<Reservation>();
 
             var openTime = station.OpenTime;
             var closeTime = station.CloseTime;
             var timeSpan = TimeSpan.FromMinutes(30);
 
-            while(openTime <= closeTime)
+            //while (openTime <= closeTime)
+            //{
+
+            //}
+
+            for (int i = 0; i < 10; i++)
             {
                 var reservation = new Reservation() { TimeStart = openTime, TimeFinish = openTime.Add(timeSpan) };
-                reservation.ChargingPoint.Id = 1;
+                openTime = openTime.Add(timeSpan);
+                reservation.ChargingPoint = db.ChargingPoints.FirstOrDefault();
                 reservationsList.Add(reservation);
-            }            
+            }
 
-            return Json(reservationsList, JsonRequestBehavior.AllowGet);
+            var showSlotsDto = new ShowFreeSlotsDTO();
+            showSlotsDto.Reservations = reservationsList;
+            showSlotsDto.Station = station;
+
+            return View(showSlotsDto);
         }
 
         // POST: Reservations/Create

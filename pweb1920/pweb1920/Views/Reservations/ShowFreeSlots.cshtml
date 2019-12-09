@@ -1,0 +1,36 @@
+﻿@model pweb1920.Models.DTO.ShowFreeSlotsDTO
+
+<div class="table-responsive">
+        <table class="table table-bordered table-hover text-center">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Reservations.FirstOrDefault().ChargingPoint.Id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Reservations.FirstOrDefault().TimeStart)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Reservations.FirstOrDefault().TimeFinish)
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Reservations)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ChargingPoint.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TimeStart)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TimeFinish)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
