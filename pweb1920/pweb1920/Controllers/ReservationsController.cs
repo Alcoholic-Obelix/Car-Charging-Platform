@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
@@ -73,28 +74,40 @@ namespace pweb1920.Controllers
         }
 
         //[HttpPost]
-        public ActionResult ShowFreeSlots(/*StartCreateDTO startDto*/)
+        public ActionResult ShowFreeSlots(StartCreateDTO startDto)
         {
-            //var station = db.Stations.Find(startDto.Station);
-            var station = db.Stations.FirstOrDefault();
+            var station = db.Stations.Find(startDto.Station);
+            var reservationsOfTheDay = db.Reservations
+                .Where(e => e.ChargingPoint.Station.Id == station.Id)
+                .Where(e => e.Date == startDto.Date).ToList();
+            var listOfCargingPoints = station.ChargingPoints.Where(e => e.Station == station).ToList();
+
             var reservationsList = new List<Reservation>();
 
-            var openTime = station.OpenTime;
-            var closeTime = station.CloseTime;
-            var timeSpan = TimeSpan.FromMinutes(30);
-
-            //while (openTime <= closeTime)
-            //{
-
-            //}
-
-            for (int i = 0; i < 10; i++)
+            foreach (var item in listOfCargingPoints)
             {
-                var reservation = new Reservation() { TimeStart = openTime, TimeFinish = openTime.Add(timeSpan) };
-                openTime = openTime.Add(timeSpan);
-                reservation.ChargingPoint = db.ChargingPoints.FirstOrDefault();
-                reservationsList.Add(reservation);
-            }
+                var openTime = station.OpenTime;
+                var closeTime = station.CloseTime;
+                var timeSpan = TimeSpan.FromMinutes(30);
+
+                while (openTime <= closeTime)
+                {
+                    if (reservationsOfTheDay
+                        .Where(e => e.ChargingPoint.Id == item.Id)
+                        .Any(e => e.TimeStart == openTime))
+                    {
+                        openTime = openTime.Add(timeSpan);
+                        continue;
+                    }
+                    else
+                    {
+                        var reservation = new Reservation() { TimeStart = openTime, TimeFinish = openTime.Add(timeSpan),
+                            ChargingPoint = item, Date = startDto.Date, Status = "Not Selected"};
+                        openTime = openTime.Add(timeSpan);
+                        reservationsList.Add(reservation);
+                    }
+                }
+            }                        
 
             var showSlotsDto = new ShowFreeSlotsDTO();
             showSlotsDto.Reservations = reservationsList;
@@ -108,28 +121,51 @@ namespace pweb1920.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TimeStart,TimeFinish,ServiceCode,EstimatedCost,Status")] Reservation reservation)
+        public ActionResult Create(ShowFreeSlotsDTO dto)
         {
             //vai buscar o ID do utilizador atual
             var claimsIdentity = User.Identity as ClaimsIdentity;
             var userIdClaim = claimsIdentity.Claims
                     .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
             var userIdValue = userIdClaim.Value;
+            var client = db.Clients.Where(m => m.IdentityId == userIdValue).FirstOrDefault();
 
-            if (ModelState.IsValid)
+            foreach (var item in dto.Reservations)
             {
-                //vai ver qual é o cliente atual com o Id do User
-                reservation.Client = db.Clients.Where(m => m.IdentityId == userIdValue).FirstOrDefault();
-                //estas 2 é só porque não podem ser null e assim já dá para experimentar as reservations
-                reservation.ChargingMode = db.ChargingModes.Where(m => m.Id == 1).FirstOrDefault();
-                reservation.ChargingPoint = db.ChargingPoints.Where(m => m.Id == 1).FirstOrDefault();
+                if (item.Selected)
+                {
+                    var reservation = new Reservation()
+                    {
+                        Date = item.Date,
+                        TimeStart = item.TimeStart,
+                        TimeFinish = item.TimeFinish,
+                        ServiceCode = 123,
+                        EstimatedCost = 123,
+                        Status = "Accepted",
+                        ChargingPoint = db.ChargingPoints.Find(item.ChargingPoint.Id),
+                        ChargingMode = db.ChargingModes.Find(item.ChargingMode.Id),
+                        Client = client
+                    };
 
-                db.Reservations.Add(reservation);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                    try
+                    {
+                        db.Reservations.Add(reservation);
+                        db.SaveChanges();
+                    }
+                    catch (DbEntityValidationException dbEx)
+                    {
+                        foreach (var validationErrors in dbEx.EntityValidationErrors)
+                        {
+                            foreach (var validationError in validationErrors.ValidationErrors)
+                            {
+                                System.Diagnostics.Debug.WriteLine("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+                            }
+                        }
+                    }
+                }
             }
 
-            return View(reservation);
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Reservations/Edit/5

@@ -11,7 +11,8 @@ namespace pweb1920.DAL
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public partial class Reservation
     {
         public int Id { get; set; }
@@ -20,9 +21,13 @@ namespace pweb1920.DAL
         public long ServiceCode { get; set; }
         public double EstimatedCost { get; set; }
         public string Status { get; set; }
+        public System.DateTime Date { get; set; }
     
         public virtual ChargingPoint ChargingPoint { get; set; }
         public virtual Client Client { get; set; }
         public virtual ChargingMode ChargingMode { get; set; }
+
+        [NotMapped]
+        public bool Selected { get; set; }
     }
 }

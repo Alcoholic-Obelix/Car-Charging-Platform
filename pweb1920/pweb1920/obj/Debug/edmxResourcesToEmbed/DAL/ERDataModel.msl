@@ -47,6 +47,7 @@
     <EntitySetMapping Name="Reservations">
       <EntityTypeMapping TypeName="IsTypeOf(ERDataModel.Reservation)">
         <MappingFragment StoreEntitySet="Reservations">
+          <ScalarProperty Name="Date" ColumnName="Date" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="TimeStart" ColumnName="TimeStart" />
           <ScalarProperty Name="TimeFinish" ColumnName="TimeFinish" />
