@@ -11,6 +11,7 @@ using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using pweb1920.DAL;
+using pweb1920.Models;
 using pweb1920.Models.DTO;
 
 namespace pweb1920.Controllers
@@ -141,7 +142,7 @@ namespace pweb1920.Controllers
                         TimeFinish = item.TimeFinish,
                         ServiceCode = 123,
                         EstimatedCost = 123,
-                        Status = "Accepted",
+                        Status = ConstantValues.READY,
                         ChargingPoint = db.ChargingPoints.Find(item.ChargingPoint.Id),
                         ChargingMode = db.ChargingModes.Find(item.ChargingMode.Id),
                         Client = client
