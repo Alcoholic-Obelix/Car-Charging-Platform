@@ -70,6 +70,7 @@ namespace pweb1920.Controllers
         }
 
         // GET: Stations/Create
+        [Authorize(Roles = "Admin, Company")]
         public ActionResult Create()
         {
             return View();
@@ -93,6 +94,7 @@ namespace pweb1920.Controllers
         }
 
         // GET: Stations/Edit/5
+        [Authorize(Roles = "Admin, Company")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -124,6 +126,7 @@ namespace pweb1920.Controllers
         }
 
         // GET: Stations/Delete/5
+        [Authorize(Roles = "Admin, Company")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
