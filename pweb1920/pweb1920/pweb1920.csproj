@@ -219,7 +219,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\DTO\CreateReservationDTO.cs" />
+    <Compile Include="Models\ConstantValues.cs" />
+    <Compile Include="Models\DTO\IndexCompanyDTO.cs" />
+    <Compile Include="Models\DTO\ShowFreeSlotsDTO.cs" />
+    <Compile Include="Models\DTO\StartCreateDTO.cs" />
     <Compile Include="Models\DTO\IndexClientDTO.cs" />
     <Compile Include="Models\DTO\IndexStationDTO.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -344,6 +347,8 @@
     <Content Include="Views\Companies\Details.cshtml" />
     <Content Include="Views\Companies\Edit.cshtml" />
     <Content Include="Views\Companies\Index.cshtml" />
+    <Content Include="Views\Reservations\ShowFreeSlots.cshtml" />
+    <Content Include="Views\Home\IndexCompany.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\ViewModels\" />

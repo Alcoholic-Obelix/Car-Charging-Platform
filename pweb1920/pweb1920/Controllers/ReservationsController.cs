@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
@@ -10,6 +11,7 @@ using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using pweb1920.DAL;
+using pweb1920.Models;
 using pweb1920.Models.DTO;
 
 namespace pweb1920.Controllers
@@ -42,14 +44,12 @@ namespace pweb1920.Controllers
         // GET: Reservations/Create
         public ActionResult Create()
         {
-            var dto = new CreateReservationDTO();
+            var dto = new StartCreateDTO();
 
             //Adds all Stations with distinct Districs to a List
             var stationsList = db.Stations.Where(e => e.Status == "Accepted").DistinctBy(e => e.District).ToList();
 
             dto.DistrictDropDown = new SelectList(stationsList, "Id", "District");
-            dto.CityDropDown = new SelectList("");
-            dto.StationDropDown = new SelectList("");
 
             return View(dto);
         }
@@ -74,48 +74,99 @@ namespace pweb1920.Controllers
             return Json(stationsList, JsonRequestBehavior.AllowGet);
         }
 
-        //public JsonResult GetFreeReservations(int StationId)
-        //{
-        //    db.Configuration.ProxyCreationEnabled = false;
-        //    var station = db.Stations.Find(StationId);
+        //[HttpPost]
+        public ActionResult ShowFreeSlots(StartCreateDTO startDto)
+        {
+            var station = db.Stations.Find(startDto.Station);
+            var reservationsOfTheDay = db.Reservations
+                .Where(e => e.ChargingPoint.Station.Id == station.Id)
+                .Where(e => e.Date == startDto.Date).ToList();
+            var listOfCargingPoints = station.ChargingPoints.Where(e => e.Station == station).ToList();
 
-        //    var openTime = s
-        //    for
+            var reservationsList = new List<Reservation>();
 
-        //    var reservation = db.Stations
-        //        .Where(e => e.District == station.District)
-        //        .Where(e => e.City == station.City).ToList();
+            foreach (var item in listOfCargingPoints)
+            {
+                var openTime = station.OpenTime;
+                var closeTime = station.CloseTime;
+                var timeSpan = TimeSpan.FromMinutes(30);
 
-        //    return Json(stationsList, JsonRequestBehavior.AllowGet);
-        //}
+                while (openTime <= closeTime)
+                {
+                    if (reservationsOfTheDay
+                        .Where(e => e.ChargingPoint.Id == item.Id)
+                        .Any(e => e.TimeStart == openTime))
+                    {
+                        openTime = openTime.Add(timeSpan);
+                        continue;
+                    }
+                    else
+                    {
+                        var reservation = new Reservation() { TimeStart = openTime, TimeFinish = openTime.Add(timeSpan),
+                            ChargingPoint = item, Date = startDto.Date, Status = "Not Selected"};
+                        openTime = openTime.Add(timeSpan);
+                        reservationsList.Add(reservation);
+                    }
+                }
+            }                        
+
+            var showSlotsDto = new ShowFreeSlotsDTO();
+            showSlotsDto.Reservations = reservationsList;
+            showSlotsDto.Station = station;
+
+            return View(showSlotsDto);
+        }
 
         // POST: Reservations/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TimeStart,TimeFinish,ServiceCode,EstimatedCost,Status")] Reservation reservation)
+        public ActionResult Create(ShowFreeSlotsDTO dto)
         {
             //vai buscar o ID do utilizador atual
             var claimsIdentity = User.Identity as ClaimsIdentity;
             var userIdClaim = claimsIdentity.Claims
                     .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
             var userIdValue = userIdClaim.Value;
+            var client = db.Clients.Where(m => m.IdentityId == userIdValue).FirstOrDefault();
 
-            if (ModelState.IsValid)
+            foreach (var item in dto.Reservations)
             {
-                //vai ver qual é o cliente atual com o Id do User
-                reservation.Client = db.Clients.Where(m => m.IdentityId == userIdValue).FirstOrDefault();
-                //estas 2 é só porque não podem ser null e assim já dá para experimentar as reservations
-                reservation.ChargingMode = db.ChargingModes.Where(m => m.Id == 1).FirstOrDefault();
-                reservation.ChargingPoint = db.ChargingPoints.Where(m => m.Id == 1).FirstOrDefault();
+                if (item.Selected)
+                {
+                    var reservation = new Reservation()
+                    {
+                        Date = item.Date,
+                        TimeStart = item.TimeStart,
+                        TimeFinish = item.TimeFinish,
+                        ServiceCode = 123,
+                        EstimatedCost = 123,
+                        Status = ConstantValues.READY,
+                        ChargingPoint = db.ChargingPoints.Find(item.ChargingPoint.Id),
+                        ChargingMode = db.ChargingModes.Find(item.ChargingMode.Id),
+                        Client = client
+                    };
 
-                db.Reservations.Add(reservation);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                    try
+                    {
+                        db.Reservations.Add(reservation);
+                        db.SaveChanges();
+                    }
+                    catch (DbEntityValidationException dbEx)
+                    {
+                        foreach (var validationErrors in dbEx.EntityValidationErrors)
+                        {
+                            foreach (var validationError in validationErrors.ValidationErrors)
+                            {
+                                System.Diagnostics.Debug.WriteLine("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+                            }
+                        }
+                    }
+                }
             }
 
-            return View(reservation);
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Reservations/Edit/5

@@ -1,0 +1,85 @@
+﻿@model pweb1920.Models.DTO.IndexCompanyDTO
+
+@{
+    ViewBag.Title = "Home";
+}
+
+<style type="text/css">
+
+    table th {
+        text-align: center;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-8">
+        <h2>
+            <span>My Stations</span>
+            <a class="btn btn-success btn-sm pull-right" href="@Url.Action("Create", "Stations")" role="button">
+                <span class="glyphicon glyphicon glyphicon-plus"></span> Add Station
+            </a>
+        </h2>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover text-center">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.myStations.FirstOrDefault().District)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.myStations.FirstOrDefault().City)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.myStations.FirstOrDefault().Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.myStations.FirstOrDefault().Status)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.myStations)
+                    {
+                        <tr onclick="location.href = '@(Url.Action("Details", "Reservations", new { id = item.Id }))'" style="cursor: pointer">
+                            <td>
+                                @Html.DisplayFor(modelItem => item.District)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.City)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Status)
+                            </td>
+                        </tr>
+                    }
+                    @*@for (var i = 0; i < (5 - Model.myReservations.Count); i++)
+                    {
+                        <tr>
+                            <td>
+                                --
+                            </td>
+                            <td>
+                                --
+                            </td>
+                            <td>
+                                --
+                            </td>
+                            <td>
+                                --
+                            </td>
+                            <td>
+                                --
+                            </td>
+                        </tr>
+                    }*@
+                </tbody>
+            </table>
+        </div>
+        <a class="btn btn-primary btn-xs pull-right" href="@Url.Action("Index", "Stations")" role="button">
+            <span class="glyphicon glyphicon-menu-right"></span> <b>View more</b>
+        </a>
+    </div>
+</div>

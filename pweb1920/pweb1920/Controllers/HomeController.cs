@@ -1,8 +1,10 @@
 ﻿using pweb1920.DAL;
+using pweb1920.Models;
 using pweb1920.Models.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 
@@ -12,17 +14,56 @@ namespace pweb1920.Controllers
     {
         private ERDataModelContainer db = new ERDataModelContainer();
 
+        public Client GetClient()
+        {
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            var userIdClaim = claimsIdentity.Claims
+                    .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+            var userIdValue = userIdClaim.Value;
+            var client = db.Clients.Where(m => m.IdentityId == userIdValue).FirstOrDefault();
+
+            return client;
+        }
+
+        public Company GetCompany()
+        {
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            var userIdClaim = claimsIdentity.Claims
+                    .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+            var userIdValue = userIdClaim.Value;
+            var company = db.Companies.Where(m => m.IdentityId == userIdValue).FirstOrDefault();
+
+            return company;
+        }
+
         public ActionResult Index()
         {
             if (Request.IsAuthenticated)
             {
+                if(User.IsInRole("Client"))
+                {
+                    var client = GetClient();
+                    var indexClientDTO = new IndexClientDTO();
+                    indexClientDTO.myReservations = db.Reservations.Where(e => e.Client.Id == client.Id).Where(e => e.Status == ConstantValues.READY).Take(5).ToList();
+                    indexClientDTO.reservationsHistory = db.Reservations.Where(e => e.Client.Id == client.Id).Where(e => e.Status == ConstantValues.DONE).Take(5).ToList();
 
-                var indexClientDTO = new IndexClientDTO();
-                indexClientDTO.myReservations = db.Reservations.Where(e => e.Status == "1").Take(5).ToList();
-                indexClientDTO.reservationsHistory = db.Reservations.Where(e => e.Status == "0").Take(5).ToList();
+                    return View("IndexClient", indexClientDTO);
+                }
+                else if (User.IsInRole("Company"))
+                {
+                    var company = GetCompany();
 
-                return View("IndexClient", indexClientDTO);
+                    var myStations = db.Stations.Where(e => e.Companies.Id == company.Id);
+                    var myChargingPoints = db.ChargingPoints.Where(e => e.Station.Companies.Id == company.Id);
+                    var indexCompanyDTO = new IndexCompanyDTO();
+                    indexCompanyDTO.myStations = myStations;
+                    indexCompanyDTO.myChargingPoints = myChargingPoints;
+
+                    return View("IndexCompany", indexCompanyDTO);
+                }
+
             }
+            
 
             return View();
         }
