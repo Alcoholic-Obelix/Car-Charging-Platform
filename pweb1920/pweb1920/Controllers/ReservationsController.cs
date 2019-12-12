@@ -124,7 +124,6 @@ namespace pweb1920.Controllers
         public ActionResult Create(ShowFreeSlotsDTO dto)
         {
             //vai buscar o ID do utilizador atual
-            //var client = new AccountController().GetClient();
             var claimsIdentity = User.Identity as ClaimsIdentity;
             var userIdClaim = claimsIdentity.Claims
                     .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);

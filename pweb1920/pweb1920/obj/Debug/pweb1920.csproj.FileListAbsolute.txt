@@ -415,5 +415,3 @@ C:\Users\a21220528\Documents\Car-Charging-Platform\pweb1920\pweb1920\obj\Debug\p
 C:\Users\a21220528\Documents\Car-Charging-Platform\pweb1920\pweb1920\obj\Debug\pweb1920.csproj.CopyComplete
 C:\Users\a21220528\Documents\Car-Charging-Platform\pweb1920\pweb1920\obj\Debug\pweb1920.dll
 C:\Users\a21220528\Documents\Car-Charging-Platform\pweb1920\pweb1920\obj\Debug\pweb1920.pdb
-D:\OneDrive - ISEC\ISEC\cadeiras\programacaoweb\Car-Charging-Platform\pweb1920\pweb1920\bin\System.Web.Providers.dll
-D:\OneDrive - ISEC\ISEC\cadeiras\programacaoweb\Car-Charging-Platform\pweb1920\pweb1920\bin\System.Web.Providers.xml
