@@ -73,6 +73,7 @@
           <Property Name="ChargingPoint_Id" Type="int" Nullable="false" />
           <Property Name="Client_Id" Type="int" Nullable="false" />
           <Property Name="ChargingMode_Id" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="Stations">
           <Key>
@@ -328,6 +329,7 @@
           <NavigationProperty Name="Client" Relationship="ERDataModel.ClientReservation" FromRole="Reservation" ToRole="Client" />
           <NavigationProperty Name="ChargingMode" Relationship="ERDataModel.ChargingModeReservation" FromRole="Reservation" ToRole="ChargingMode" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
         </EntityType>
         <EntityType Name="PriceHour">
           <Key>
@@ -430,7 +432,8 @@
     <EntitySetMapping Name="Reservations">
       <EntityTypeMapping TypeName="IsTypeOf(ERDataModel.Reservation)">
         <MappingFragment StoreEntitySet="Reservations">
-          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="TimeStart" ColumnName="TimeStart" />
           <ScalarProperty Name="TimeFinish" ColumnName="TimeFinish" />
           <ScalarProperty Name="ServiceCode" ColumnName="ServiceCode" />

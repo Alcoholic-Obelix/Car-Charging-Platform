@@ -98,6 +98,7 @@
     <NavigationProperty Name="Client" Relationship="ERDataModel.ClientReservation" FromRole="Reservation" ToRole="Client" />
     <NavigationProperty Name="ChargingMode" Relationship="ERDataModel.ChargingModeReservation" FromRole="Reservation" ToRole="ChargingMode" />
     <Property Name="Status" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
   </EntityType>
   <EntityType Name="PriceHour">
     <Key>

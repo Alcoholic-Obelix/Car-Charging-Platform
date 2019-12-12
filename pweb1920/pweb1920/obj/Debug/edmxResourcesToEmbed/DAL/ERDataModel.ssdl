@@ -68,6 +68,7 @@
     <Property Name="ChargingPoint_Id" Type="int" Nullable="false" />
     <Property Name="Client_Id" Type="int" Nullable="false" />
     <Property Name="ChargingMode_Id" Type="int" Nullable="false" />
+    <Property Name="Date" Type="date" Nullable="false" />
   </EntityType>
   <EntityType Name="Stations">
     <Key>
