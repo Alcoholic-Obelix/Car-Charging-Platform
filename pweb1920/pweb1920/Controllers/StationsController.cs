@@ -44,7 +44,18 @@ namespace pweb1920.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.Title = "Stations";
+            if (User.IsInRole("Admin"))
+            {
+                var company = GetCompany();
+
+                var myStations = db.Stations.ToList();
+
+                var indexCompanyDTO = new IndexCompanyDTO();
+                indexCompanyDTO.myStations = myStations;
+
+                return View("../Home/IndexCompany", indexCompanyDTO);
+            }
+            else
             return View(db.Stations.ToList());
         }
 
