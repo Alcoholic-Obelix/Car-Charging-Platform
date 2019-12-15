@@ -35,6 +35,7 @@ namespace pweb1920.Models.ViewModels
         public ReservationDetailsViewModel(Reservation reservation)
         {
             this.Id = reservation.Id;
+            this.Date = reservation.Date;
             this.TimeStart = reservation.TimeStart;
             this.TimeFinish = reservation.TimeFinish;
             this.ServiceCode = reservation.ServiceCode;
