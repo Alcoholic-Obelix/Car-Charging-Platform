@@ -25,12 +25,6 @@
                     {
                         if (User.IsInRole("Admin"))
                         {
-                            <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "UsersAdmin" ? "active" : "")">
-                                @Html.ActionLink("Users Admin", "Index", "UsersAdmin")
-                            </li>
-                            <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "RolesAdmin" ? "active" : "")">
-                                @Html.ActionLink("Roles Admin", "Index", "RolesAdmin")
-                            </li>
                             <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Stations" ? "active" : "")">
                                 @Html.ActionLink("Stations", "Index", "Stations")
                             </li>
@@ -43,6 +37,12 @@
                             <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Reservations" ? "active" : "")">
                                 @Html.ActionLink("Reservations", "Index", "Reservations")
                             </li>
+                            <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Stations" ? "active" : "")">
+                                @Html.ActionLink("Stations", "Index", "Stations")
+                            </li>
+                        }
+                        else if (User.IsInRole("Company"))
+                        {
                             <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Stations" ? "active" : "")">
                                 @Html.ActionLink("Stations", "Index", "Stations")
                             </li>

@@ -12,7 +12,7 @@
 </style>
 
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-12">
         <h2>
             <span>My Stations</span>
             <a class="btn btn-success btn-sm pull-right" href="@Url.Action("Create", "Stations")" role="button">
@@ -40,7 +40,7 @@
                 <tbody>
                     @foreach (var item in Model.myStations)
                     {
-                        <tr onclick="location.href = '@(Url.Action("Details", "Reservations", new { id = item.Id }))'" style="cursor: pointer">
+                        <tr onclick="location.href = '@(Url.Action("Details", "Stations", new { id = item.Id }))'" style="cursor: pointer">
                             <td>
                                 @Html.DisplayFor(modelItem => item.District)
                             </td>
@@ -55,7 +55,7 @@
                             </td>
                         </tr>
                     }
-                    @*@for (var i = 0; i < (5 - Model.myReservations.Count); i++)
+                    @for (var i = 0; i < (10 - Model.myStations.Count); i++)
                     {
                         <tr>
                             <td>
@@ -70,11 +70,8 @@
                             <td>
                                 --
                             </td>
-                            <td>
-                                --
-                            </td>
                         </tr>
-                    }*@
+                    }
                 </tbody>
             </table>
         </div>
