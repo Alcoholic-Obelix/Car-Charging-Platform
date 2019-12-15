@@ -53,13 +53,22 @@ namespace pweb1920.Controllers
                 {
                     var company = GetCompany();
 
-                    var myStations = db.Stations.Where(e => e.Companies.Id == company.Id);
-                    var myChargingPoints = db.ChargingPoints.Where(e => e.Station.Companies.Id == company.Id);
-                    var indexCompanyDTO = new IndexCompanyDTO();
-                    indexCompanyDTO.myStations = myStations;
-                    indexCompanyDTO.myChargingPoints = myChargingPoints;
+                    if(company.Status == ConstantValues.ACCEPTED)
+                    {
+                        var myStations = db.Stations.Where(e => e.Companies.Id == company.Id);
+                        var myChargingPoints = db.ChargingPoints.Where(e => e.Station.Companies.Id == company.Id);
+                        var indexCompanyDTO = new IndexCompanyDTO();
+                        indexCompanyDTO.myStations = myStations;
+                        indexCompanyDTO.myChargingPoints = myChargingPoints;
 
-                    return View("IndexCompany", indexCompanyDTO);
+                        return View("IndexCompany", indexCompanyDTO);
+                    }
+                    else
+                    {
+                        return View("PendingApproval");
+                    }
+
+                    
                 }
 
             }
