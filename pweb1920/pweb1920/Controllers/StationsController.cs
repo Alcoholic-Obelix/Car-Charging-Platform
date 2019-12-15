@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
 using pweb1920.DAL;
+using pweb1920.Models;
 using pweb1920.Models.DTO;
 
 namespace pweb1920.Controllers
@@ -106,10 +107,12 @@ namespace pweb1920.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,StreetAdress,City,District,Status")] Station station)
+        public ActionResult Create([Bind(Include = "Id,Name,StreetAdress,City,District")] Station station)
         {
             if (ModelState.IsValid)
             {
+                station.Status = ConstantValues.PENDING;
+                station.Companies = GetCompany();
                 db.Stations.Add(station);
                 db.SaveChanges();
                 return RedirectToAction("Index");

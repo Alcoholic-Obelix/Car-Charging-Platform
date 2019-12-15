@@ -31,40 +31,49 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
+
+                    @if (Model != null)
                     {
-                        <tr onclick="location.href = '@(Url.Action("Details", "Stations", new { id = item.Id }))'" style="cursor: pointer" class="row-hover">
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.StreetAdress)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.City)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.District)
-                            </td>
-                        </tr>
+                        foreach (var item in Model)
+                        {
+                            <tr onclick="location.href = '@(Url.Action("Details", "Stations", new { id = item.Id }))'" style="cursor: pointer" class="row-hover">
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.StreetAdress)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.City)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.District)
+                                </td>
+                            </tr>
+                        }
+                        for (var i = 0; i < (10 - Model.Count()); i++)
+                        {
+                            <tr>
+                                <td>
+                                    --
+                                </td>
+                                <td>
+                                    --
+                                </td>
+                                <td>
+                                    --
+                                </td>
+                                <td>
+                                    --
+                                </td>
+                            </tr>
+                        }
                     }
-                    @for (var i = 0; i < (10 - Model.Count()); i++)
+                    else
                     {
-                        <tr>
-                            <td>
-                                --
-                            </td>
-                            <td>
-                                --
-                            </td>
-                            <td>
-                                --
-                            </td>
-                            <td>
-                                --
-                            </td>
-                        </tr>
+
                     }
+
                 </tbody>
             </table>
         </div>
