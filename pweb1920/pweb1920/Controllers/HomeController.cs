@@ -55,8 +55,9 @@ namespace pweb1920.Controllers
 
                     if(company.Status == ConstantValues.ACCEPTED)
                     {
-                        var myStations = db.Stations.Where(e => e.Companies.Id == company.Id);
-                        var myChargingPoints = db.ChargingPoints.Where(e => e.Station.Companies.Id == company.Id);
+                        var myStations = db.Stations.Where(e => e.Companies.Id == company.Id).ToList();
+                        var myChargingPoints = db.ChargingPoints.Where(e => e.Station.Companies.Id == company.Id).ToList();
+
                         var indexCompanyDTO = new IndexCompanyDTO();
                         indexCompanyDTO.myStations = myStations;
                         indexCompanyDTO.myChargingPoints = myChargingPoints;
