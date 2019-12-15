@@ -140,11 +140,20 @@ namespace pweb1920.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Station station = db.Stations.Find(id);
             if (station == null)
             {
                 return HttpNotFound();
             }
+
+            List<SelectListItem> dropdownList = new List<SelectListItem>();
+            SelectListItem accepted = new SelectListItem { Text = "Accepted", Value = ConstantValues.ACCEPTED };
+            SelectListItem pending = new SelectListItem { Text = "Pending", Value = ConstantValues.PENDING };
+            dropdownList.Add(accepted);
+            dropdownList.Add(pending);
+            station.StatusDropDown = dropdownList;
+
             return View(station);
         }
 

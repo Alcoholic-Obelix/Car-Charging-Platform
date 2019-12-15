@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using pweb1920.DAL;
+using pweb1920.Models;
 
 namespace pweb1920.Controllers
 {
@@ -73,8 +74,8 @@ namespace pweb1920.Controllers
             }
 
             List<SelectListItem> dropdownList = new List<SelectListItem>();
-            SelectListItem accepted = new SelectListItem {Text = "Accepted", Value = "Accepted"};
-            SelectListItem pending = new SelectListItem {Text = "Pending", Value = "Pending"};
+            SelectListItem accepted = new SelectListItem {Text = "Accepted", Value = ConstantValues.ACCEPTED };
+            SelectListItem pending = new SelectListItem {Text = "Pending", Value = ConstantValues.PENDING };
             dropdownList.Add(accepted);
             dropdownList.Add(pending);
             company.StatusDropDown = dropdownList;
