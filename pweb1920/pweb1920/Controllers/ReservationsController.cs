@@ -13,6 +13,7 @@ using Microsoft.AspNet.Identity;
 using pweb1920.DAL;
 using pweb1920.Models;
 using pweb1920.Models.DTO;
+using pweb1920.Models.ViewModels;
 
 namespace pweb1920.Controllers
 {
@@ -57,7 +58,7 @@ namespace pweb1920.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Reservation reservation = db.Reservations.Find(id);
+            ReservationDetailsViewModel reservation = new ReservationDetailsViewModel(db.Reservations.Find(id));
             if (reservation == null)
             {
                 return HttpNotFound();
