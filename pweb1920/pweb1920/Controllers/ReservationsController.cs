@@ -20,6 +20,30 @@ namespace pweb1920.Controllers
     {
         private ERDataModelContainer db = new ERDataModelContainer();
 
+        public Client GetClient()
+        {
+            //vai buscar o ID do utilizador atual
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            var userIdClaim = claimsIdentity.Claims
+                    .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+            var userIdValue = userIdClaim.Value;
+            var client = db.Clients.Where(m => m.IdentityId == userIdValue).FirstOrDefault();
+
+            return client;
+        }
+
+        public Company GetCompany()
+        {
+            //vai buscar o ID do utilizador atual
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            var userIdClaim = claimsIdentity.Claims
+                    .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+            var userIdValue = userIdClaim.Value;
+            var company = db.Companies.Where(m => m.IdentityId == userIdValue).FirstOrDefault();
+
+            return company;
+        }
+
         // GET: Reservations
         public ActionResult Index()
         {
@@ -124,12 +148,7 @@ namespace pweb1920.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(ShowFreeSlotsDTO dto)
         {
-            //vai buscar o ID do utilizador atual
-            var claimsIdentity = User.Identity as ClaimsIdentity;
-            var userIdClaim = claimsIdentity.Claims
-                    .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
-            var userIdValue = userIdClaim.Value;
-            var client = db.Clients.Where(m => m.IdentityId == userIdValue).FirstOrDefault();
+            var client = GetClient();
 
             foreach (var item in dto.Reservations)
             {

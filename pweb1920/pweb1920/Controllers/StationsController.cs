@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
@@ -15,6 +16,30 @@ namespace pweb1920.Controllers
     public class StationsController : Controller
     {
         private ERDataModelContainer db = new ERDataModelContainer();
+
+        public Client GetClient()
+        {
+            //vai buscar o ID do utilizador atual
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            var userIdClaim = claimsIdentity.Claims
+                    .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+            var userIdValue = userIdClaim.Value;
+            var client = db.Clients.Where(m => m.IdentityId == userIdValue).FirstOrDefault();
+
+            return client;
+        }
+
+        public Company GetCompany()
+        {
+            //vai buscar o ID do utilizador atual
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            var userIdClaim = claimsIdentity.Claims
+                    .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+            var userIdValue = userIdClaim.Value;
+            var company = db.Companies.Where(m => m.IdentityId == userIdValue).FirstOrDefault();
+
+            return company;
+        }
 
         public ActionResult Index()
         {
