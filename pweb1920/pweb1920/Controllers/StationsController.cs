@@ -102,8 +102,13 @@ namespace pweb1920.Controllers
         // GET: Stations/Details/5
         public ActionResult Details(int id)
         {
-            Station station = db.Stations.Find(id);
-            return View(station);
+            var stationDTO = new StationDetailsDTO();
+            var station = db.Stations.Find(id);
+
+            stationDTO.Station = station;
+            stationDTO.ChargingPoints = db.ChargingPoints.Where(e => e.Station.Id == station.Id).ToList();
+
+            return View(stationDTO);
         }
 
         // GET: Stations/Create
