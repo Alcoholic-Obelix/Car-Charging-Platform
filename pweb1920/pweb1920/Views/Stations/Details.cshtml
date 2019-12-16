@@ -1,4 +1,4 @@
-﻿@model pweb1920.DAL.Station
+﻿@model pweb1920.Models.DTO.StationDetailsDTO
 
 @{
     ViewBag.Title = "Station - Details";
@@ -13,66 +13,66 @@
                     </a>
                 </li>
                 <li>
-                    @Html.ActionLink(Model.District, "Search", "Stations", new { district = Model.Id }, null)
+                    @Html.ActionLink(Model.Station.District, "Search", "Stations", new { district = Model.Station.Id }, null)
                 </li>
                 <li>
-                    @Html.ActionLink(Model.City, "Search", "Stations", new { district = Model.Id, city = Model.Id }, null)
+                    @Html.ActionLink(Model.Station.City, "Search", "Stations", new { district = Model.Station.Id, city = Model.Station.Id }, null)
                 </li>
                 <li class="active">
-                    @Html.DisplayFor(model => Model.Name)
+                    @Html.DisplayFor(model => Model.Station.Name)
                 </li>
             </ol>
             <h2>
                 <span>
                     Details
-                    <small>@Html.DisplayFor(model => Model.Name)</small>
+                    <small>@Html.DisplayFor(model => Model.Station.Name)</small>
                 </span>
                 @if (!User.IsInRole("Client"))
                 {
-                    <a class="btn btn-info btn-sm pull-right" href="@Url.Action("Edit", "Stations", new { id = Model.Id })" role="button">
+                    <a class="btn btn-info btn-sm pull-right" href="@Url.Action("Edit", "Stations", new { id = Model.Station.Id })" role="button">
                         <span class="glyphicon glyphicon glyphicon-edit"></span> Edit
                     </a>
                 }
             </h2>
             <dl class="dl-horizontal">
                 <dt>
-                    @Html.DisplayNameFor(model => model.Name)
+                    @Html.DisplayNameFor(model => model.Station.Name)
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.Name)
+                    @Html.DisplayFor(model => model.Station.Name)
                 </dd>
 
                 <dt>
-                    @Html.DisplayNameFor(model => model.StreetAdress)
+                    @Html.DisplayNameFor(model => model.Station.StreetAdress)
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.StreetAdress)
+                    @Html.DisplayFor(model => model.Station.StreetAdress)
                 </dd>
 
                 <dt>
-                    @Html.DisplayNameFor(model => model.City)
+                    @Html.DisplayNameFor(model => model.Station.City)
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.City)
+                    @Html.DisplayFor(model => model.Station.City)
                 </dd>
 
                 <dt>
-                    @Html.DisplayNameFor(model => model.District)
+                    @Html.DisplayNameFor(model => model.Station.District)
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.District)
+                    @Html.DisplayFor(model => model.Station.District)
                 </dd>
 
                 <dt>
-                    @Html.DisplayNameFor(model => model.Status)
+                    @Html.DisplayNameFor(model => model.Station.Status)
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.Status)
+                    @Html.DisplayFor(model => model.Station.Status)
                 </dd>
             </dl>
             <a class="btn btn-primary btn-sm pull-right" href="@Url.Action("Index", "Stations")" role="button">
