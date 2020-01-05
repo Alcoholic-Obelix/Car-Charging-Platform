@@ -59,6 +59,11 @@ namespace pweb1920.Controllers
             return View(db.Stations.ToList());
         }
 
+        public ActionResult OwnerDetails(int id)
+        {
+            return PartialView("OwnerDetails", db.Companies.Find(id));
+        }
+
         // GET: Stations
         public ActionResult Search(int? district, int? city)
         {
@@ -102,11 +107,18 @@ namespace pweb1920.Controllers
         // GET: Stations/Details/5
         public ActionResult Details(int id)
         {
-            var stationDTO = new StationDetailsDTO();
-            var station = db.Stations.Find(id);
-
-            stationDTO.Station = station;
-            stationDTO.ChargingPoints = db.ChargingPoints.Where(e => e.Station.Id == station.Id).ToList();
+            var stationDTO = new StationDetailsDTO(db.Stations.Find(id));
+            var result = db.ChargingPoints
+                .Where(e => e.Station.Id == stationDTO.Station.Id)
+                .Select(e => new {
+                    Id = e.Id,
+                    Station = e.Status,
+                    ModeId = e.ChargingModes.FirstOrDefault().Id,
+                    ModeName = e.ChargingModes.FirstOrDefault().Name,
+                    ModeDescription = e.ChargingModes.FirstOrDefault().Description 
+                }).ToList();
+            
+            result.ForEach(e => stationDTO.ChargingPoints.Add(new ChargingPointDTO(e.Id, e.Station, e.ModeId, e.ModeName, e.ModeDescription)));
 
             return View(stationDTO);
         }

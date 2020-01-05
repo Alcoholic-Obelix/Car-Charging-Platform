@@ -1,4 +1,4 @@
-﻿@model IEnumerable<pweb1920.DAL.Reservation>
+﻿@model IEnumerable<pweb1920.Models.ViewModels.ReservationDetailsViewModel>
 
 @{
     ViewBag.Title = "Reservations";
@@ -17,34 +17,34 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.TimeStart)
+                            @Html.DisplayNameFor(model => model.Date)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.TimeFinish)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.ServiceCode)
+                            @Html.DisplayNameFor(model => model.StationName)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.EstimatedCost)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Status)
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr @*onclick="location.href = '@(Url.Action("Details", "Reservations", new { id = item.Id }))'"*@ style="cursor: pointer" class="row-hover">
+                        <tr onclick="createModal('@Url.Action("Details", "Reservations" , new {id = item.Id })')" style="cursor: pointer" class="row-hover">
                             <td>
-                                @Html.DisplayFor(modelItem => item.TimeStart)
+                                @Html.DisplayFor(modelItem => item.Date)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.TimeFinish)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ServiceCode)
+                                @Html.DisplayFor(modelItem => item.StationName)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.EstimatedCost)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Status)
                             </td>
                         </tr>
                     }
@@ -71,40 +71,16 @@
     </div>
 </div>
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" data-whatever="getbootstrap">
-    Launch demo modal
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
+<div id="details-modal" class="modal fade" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
-    $(function () {
-      $('#myModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget) // Button that triggered the modal
-        var recipient = button.data('whatever') // Extract info from data-* attributes
-        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-        var modal = $(this)
-        modal.find('.modal-title').text('New message to ' + recipient)
-        modal.find('.modal-body input').val(recipient)
-    })
-    });
+    function createModal(url) {
+        $('#details-modal .modal-content').load(url);
+        $('#details-modal').modal('show');
+    }
 </script>

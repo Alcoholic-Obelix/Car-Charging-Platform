@@ -17,9 +17,11 @@ namespace pweb1920.Models.ViewModels
         public System.DateTime Date { get; set; }
 
         [Display(Name = "Starting Time")]
+        [DisplayFormat(DataFormatString = "{0:hh}h{0:mm}")]
         public System.TimeSpan TimeStart { get; set; }
 
         [Display(Name = "Finishing Time")]
+        [DisplayFormat(DataFormatString = "{0:hh}h{0:mm}")]
         public System.TimeSpan TimeFinish { get; set; }
 
         [Display(Name = "Service Code")]
@@ -32,7 +34,10 @@ namespace pweb1920.Models.ViewModels
         [Display(Name = "Status")]
         public string Status { get; set; }
 
-        public ReservationDetailsViewModel(Reservation reservation)
+        [Display(Name = "Station")]
+        public string StationName { get; set; }
+
+        public ReservationDetailsViewModel(Reservation reservation, String StationName)
         {
             this.Id = reservation.Id;
             this.Date = reservation.Date;
@@ -41,6 +46,7 @@ namespace pweb1920.Models.ViewModels
             this.ServiceCode = reservation.ServiceCode;
             this.EstimatedCost = reservation.EstimatedCost;
             this.Status = reservation.Status;
+            this.StationName = StationName;
         }
     }
 }

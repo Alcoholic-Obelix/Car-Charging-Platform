@@ -1,71 +1,73 @@
 ﻿@model pweb1920.Models.DTO.ShowFreeSlotsDTO
 
+@{ 
+    ViewBag.Title = "Create Reservation";
+}
+
 @using (Html.BeginForm("Create", "Reservations", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
     <div class="table-responsive">
-        <table class="table table-bordered table-hover text-center">
+        <table class="table">
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.Reservations.FirstOrDefault().ChargingPoint)
+                        Charging Point
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Reservations.FirstOrDefault().TimeStart)
+                        Time
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Reservations.FirstOrDefault().TimeFinish)
+                        Charging Mode
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Reservations.FirstOrDefault().Selected)
+                       
                     </th>
-                    <th>
-                        @Html.DisplayNameFor(model =>  model.Reservations.FirstOrDefault().ChargingMode)
-                    </th>
-                    <th>
-                        <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Show" class="btn btn-default" />
-                            </div>
-                        </div>
-                    </th>
-
                 </tr>
             </thead>
             <tbody>
                 @for (int i = 0; i < Model.Reservations.Count; i++)
                 {
                     @Html.HiddenFor(m => m.Reservations[i].Date)
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(m => m.Reservations[i].ChargingPoint.Id)
-                            @Html.HiddenFor(m => m.Reservations[i].ChargingPoint.Id)
-                        </td>
-                        <td>
+                <tr>
+                    <td>
+                        CP-@Html.DisplayFor(m => m.Reservations[i].ChargingPoint.Id)
+                        @Html.HiddenFor(m => m.Reservations[i].ChargingPoint.Id)
+                    </td>
+                    <td>
+                        <p style="text-align: left;">
+                            <b>From:</b>
                             @Html.DisplayFor(m => m.Reservations[i].TimeStart)
                             @Html.HiddenFor(m => m.Reservations[i].TimeStart)
-                        </td>
-                        <td>
+                            <br />
+                            <b>To:</b>
                             @Html.DisplayFor(m => m.Reservations[i].TimeFinish)
                             @Html.HiddenFor(m => m.Reservations[i].TimeFinish)
-                        <td>
-                            @Html.CheckBoxFor(m => m.Reservations[i].Selected)
-                        </td>
-                        <td>
-                            @{
-                                var chargingModesList = Model.Reservations[i].ChargingPoint.ChargingModes.ToList();
-                                var selectList = chargingModesList.Where(e => e.ChargingPoint.Contains(Model.Reservations[i].ChargingPoint)).ToList();
-                            }   
+                        </p>
+                    </td>
+                    <td>
+                        @{
+                            var chargingModesList = Model.Reservations[i].ChargingPoint.ChargingModes.ToList();
+                            var selectList = chargingModesList.Where(e => e.ChargingPoint.Contains(Model.Reservations[i].ChargingPoint)).ToList();
+                        }
 
-                            @Html.DropDownListFor(m => m.Reservations[i].ChargingMode.Id,
-                           new SelectList(selectList, "Id", "Name"),
-                           "Please select", new { @class = "form-control" })
-                        </td>
-                    </tr>
+                        @Html.DropDownListFor(m => m.Reservations[i].ChargingMode.Id,
+                       new SelectList(selectList, "Id", "Name"),
+                       "Please select", new { @class = "form-control" })
+                    </td>
+                    <td>
+                        @Html.CheckBoxFor(m => m.Reservations[i].Selected)
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>
+        <div class="form-group">
+            <div class="col-md-12">
+                <input type="submit" value="Finish" class="btn btn-default pull-right" />
+            </div>
+        </div>
     </div>
 
 }

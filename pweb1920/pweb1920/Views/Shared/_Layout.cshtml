@@ -37,11 +37,37 @@
                         }
                         else if (User.IsInRole("Client"))
                         {
-                            <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Reservations" ? "active" : "")">
-                                @Html.ActionLink("Reservations", "Index", "Reservations")
+                            <li class="dropdown @(ViewContext.RouteData.Values["controller"].ToString() == "Reservations" ? "active" : "")">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    Reservations
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Reservations" && ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")">
+                                        @Html.ActionLink("List", "Index", "Reservations")
+                                    </li>
+                                    <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Reservations" && ViewContext.RouteData.Values["action"].ToString() == "Create" ? "active" : "")">
+                                        @Html.ActionLink("Create", "Create", "Reservations")
+                                    </li>
+                                </ul>
                             </li>
+                            <li class="dropdown @(ViewContext.RouteData.Values["controller"].ToString() == "Stations" ? "active" : "")">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    Stations
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Stations" && ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")">
+                                        @Html.ActionLink("List", "Index", "Stations")
+                                    </li>
+                                    <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Stations" && ViewContext.RouteData.Values["action"].ToString() == "Search" ? "active" : "")">
+                                        @Html.ActionLink("Search", "Search", "Stations")
+                                    </li>
+                                </ul>
+                            </li>
+
                             <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Stations" ? "active" : "")">
-                                @Html.ActionLink("Stations", "Index", "Stations")
+
                             </li>
                         }
                         else if (User.IsInRole("Company"))
@@ -55,10 +81,10 @@
                     {
 
                         <li class="@(ViewContext.RouteData.Values["action"].ToString() == "About" ? "active" : "")">
-                            @Html.ActionLink("About", "About", "Home")
+                            <a href="#about-section">About</a>
                         </li>
                         <li class="@(ViewContext.RouteData.Values["action"].ToString() == "Contact" ? "active" : "")">
-                            @Html.ActionLink("Contact", "Contact", "Home")
+                            <a href="#contact-section">Contact</a>
                         </li>
                     }
                 </ul>
@@ -68,14 +94,37 @@
     </div>
     <div class="container body-content">
         @RenderBody()
+
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - iCharged U</p>
         </footer>
     </div>
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
+    <script>
+        $(document).ready(function () {
+            $("a").on('click', function (event) {
+                if (this.hash !== "") {
+                    event.preventDefault();
+                    var hash = this.hash;
+                    $('html, body').animate({
+                        scrollTop: $(hash).offset().top
+                    }, 800, function () {
+                        window.location.hash = hash;
+                    });
+                }
+            });
+
+
+            $('ul.nav li.dropdown').hover(function () {
+                $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeIn(200);
+            }, function () {
+                $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeOut(200);
+            });
+        });
+    </script>
 </body>
 </html>

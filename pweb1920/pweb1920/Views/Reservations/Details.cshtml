@@ -1,71 +1,75 @@
 ﻿@model pweb1920.Models.ViewModels.ReservationDetailsViewModel
+<style type="text/css">
+    div.modal-body .row .col-md-4 p{
+        text-align: right;
+        font-weight: bold;
+    }
 
-@{
-    ViewBag.Title = "Reservation - Details";
-}
+    div.modal-body .row .col-md-8 p {
+        text-align: center;
+    }
 
-<div class="row">
-    <div class="col-md-12">
-        <h2>
-            <span>Details</span>
-            @if (!User.IsInRole("Client"))
-            {
-                <a class="btn btn-info btn-sm pull-right" href="@Url.Action("Edit", "Reservations", new { id = Model.Id })" role="button">
-                    <span class="glyphicon glyphicon glyphicon-edit"></span> Edit
-                </a>
-            }
-        </h2>
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Date)
-            </dt>
+    h4.modal-title {
+        font-weight: bolder;
+    }
+</style>
 
-            <dd>
-                @Html.DisplayFor(model => model.Date)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.TimeStart)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.TimeStart)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.TimeFinish)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.TimeFinish)
-            </dd>
-
-            <dt>
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h4 class="modal-title">
+        @Html.DisplayFor(model => model.Date) - @Html.DisplayFor(model => model.StationName)
+        <span class="small">
+            Reservation #@Html.DisplayFor(model => model.Id)
+        </span>
+    </h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-4">
+            <p>
                 @Html.DisplayNameFor(model => model.ServiceCode)
-            </dt>
-
-            <dd>
+            </p>
+        </div>
+        <div class="col-md-8">
+            <p>
                 @Html.DisplayFor(model => model.ServiceCode)
-            </dd>
-
-            <dt>
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <p>
+                Time
+            </p>
+        </div>
+        <div class="col-md-8">
+            <p>
+                @Html.DisplayFor(model => model.TimeStart) to @Html.DisplayFor(model => model.TimeFinish)
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <p>
                 @Html.DisplayNameFor(model => model.EstimatedCost)
-            </dt>
-
-            <dd>
+            </p>
+        </div>
+        <div class="col-md-8">
+            <p>
                 @Html.DisplayFor(model => model.EstimatedCost)
-            </dd>
-
-            <dt>
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <p>
                 @Html.DisplayNameFor(model => model.Status)
-            </dt>
-
-            <dd>
+            </p>
+        </div>
+        <div class="col-md-8">
+            <p>
                 @Html.DisplayFor(model => model.Status)
-            </dd>
-        </dl>
-        <a class="btn btn-primary btn-sm pull-right" href="@Url.Action("Index", "Reservations")" role="button">
-            <span class="glyphicon glyphicon-share-alt"></span> Back to List
-        </a>
+            </p>
+        </div>
     </div>
 </div>

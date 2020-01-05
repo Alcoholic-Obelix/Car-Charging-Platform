@@ -9,6 +9,12 @@ namespace pweb1920.Models.DTO
     public class StationDetailsDTO
     {
         public Station Station { get; set; }
-        public List<ChargingPoint> ChargingPoints { get; set; }
+        public List<ChargingPointDTO> ChargingPoints { get; set; }
+
+        public StationDetailsDTO(Station Station)
+        {
+            this.Station = Station;
+            this.ChargingPoints = new List<ChargingPointDTO>();
+        }
     }
 }

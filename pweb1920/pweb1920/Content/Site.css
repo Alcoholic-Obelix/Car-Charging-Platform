@@ -36,3 +36,14 @@ tr[onclick]:hover {
 ol.breadcrumb {
     margin-bottom: 10px;
 }
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+

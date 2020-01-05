@@ -4,149 +4,181 @@
     ViewBag.Title = "Home";
 }
 
-    <div class="row">
-        <div class="col-md-4">
-            <h2>
-                Informations
-            </h2>
-        </div>
-        <div class="col-md-8">
-            <div class="row">
-                <div class="col-md-12">
-                    <h2>
-                        <span>My Reservations</span>
-                        <a class="btn btn-success btn-sm pull-right" href="@Url.Action("Create", "Reservations")" role="button">
-                            <span class="glyphicon glyphicon glyphicon-plus"></span> Add reservation
-                        </a>
-                    </h2>
-                    <div class="table-responsive">
-                        <table class="table table-bordered text-center">
-                            <thead>
+<style>
+    div.row.display-flex {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    div.row.display-flex > [class*='col-'] {
+        flex-grow: 1;
+    }
+    div.imaged {
+        background-image: url('../../Content/img/charging.jpeg');
+        background-repeat: no-repeat;
+        background-position: bottom center;
+        background-size: contain;
+        align-items: flex-end;
+        display: flex;
+        margin-bottom: 22px;
+        padding-bottom: -2px;
+        overflow: hidden;
+        border-bottom: 1px solid #ddd;
+    }
+</style>
+
+<div class="row display-flex">
+    <div class="col-md-4 imaged">
+    </div>
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>
+                    <span>My Reservations</span>
+                    <a class="btn btn-success btn-sm pull-right" href="@Url.Action("Create", "Reservations")" role="button">
+                        <span class="glyphicon glyphicon glyphicon-plus"></span> Add reservation
+                    </a>
+                </h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered text-center">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.myReservations.FirstOrDefault().Date)
+                                </th>
+                                <th>
+                                    Time
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.myReservations.FirstOrDefault().StationName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.myReservations.FirstOrDefault().EstimatedCost)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.myReservations)
+                            {
+                            <tr onclick="createModal('@Url.Action("Details", "Reservations" , new {id = item.Id })')" style="cursor: pointer">
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Date)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TimeStart) to @Html.DisplayFor(modelItem => item.TimeFinish)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.StationName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EstimatedCost)
+                                </td>
+                            </tr>
+                            }
+                            @for (var i = 0; i < (5 - Model.myReservations.Count); i++)
+                            {
                                 <tr>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.myReservations.FirstOrDefault().TimeStart)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.myReservations.FirstOrDefault().TimeFinish)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.myReservations.FirstOrDefault().ServiceCode)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.myReservations.FirstOrDefault().EstimatedCost)
-                                    </th>
+                                    <td>
+                                        --
+                                    </td>
+                                    <td>
+                                        --
+                                    </td>
+                                    <td>
+                                        --
+                                    </td>
+                                    <td>
+                                        --
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model.myReservations)
-                                {
-                                    <tr onclick="location.href = '@(Url.Action("Details", "Reservations", new { id = item.Id }))'" style="cursor: pointer">
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.TimeStart)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.TimeFinish)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ServiceCode)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.EstimatedCost)
-                                        </td>
-                                    </tr>
-                                }
-                                @for (var i = 0; i < (5 - Model.myReservations.Count); i++)
-                                {
-                                    <tr>
-                                        <td>
-                                            --
-                                        </td>
-                                        <td>
-                                            --
-                                        </td>
-                                        <td>
-                                            --
-                                        </td>
-                                        <td>
-                                            --
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <a class="btn btn-primary btn-xs pull-right" href="@Url.Action("Index", "Reservations")" role="button">
+                    <span class="glyphicon glyphicon-menu-right"></span> <b>View more</b>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h2>History</h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered text-center">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.reservationsHistory.FirstOrDefault().Date)
+                                </th>
+                                <th>
+                                    Time
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.reservationsHistory.FirstOrDefault().StationName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.reservationsHistory.FirstOrDefault().EstimatedCost)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.reservationsHistory)
+                            {
+                                <tr onclick="createModal('@Url.Action("Details", "Reservations" , new {id = item.Id })')" style="cursor: pointer">
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Date)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TimeStart) to @Html.DisplayFor(modelItem => item.TimeFinish)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.StationName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.EstimatedCost)
+                                    </td>
+                                </tr>
+                            }
+                            @for (var i = 0; i < (5 - Model.reservationsHistory.Count); i++)
+                            {
+                                <tr>
+                                    <td>
+                                        --
+                                    </td>
+                                    <td>
+                                        --
+                                    </td>
+                                    <td>
+                                        --
+                                    </td>
+                                    <td>
+                                        --
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                @if (Model.reservationsHistory.Count == 5)
+                {
                     <a class="btn btn-primary btn-xs pull-right" href="@Url.Action("Index", "Reservations")" role="button">
                         <span class="glyphicon glyphicon-menu-right"></span> <b>View more</b>
                     </a>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <h2>History</h2>
-                    <div class="table-responsive">
-                        <table class="table table-bordered text-center">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.reservationsHistory.FirstOrDefault().TimeStart)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.reservationsHistory.FirstOrDefault().TimeFinish)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.reservationsHistory.FirstOrDefault().ServiceCode)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.reservationsHistory.FirstOrDefault().EstimatedCost)
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model.reservationsHistory)
-                                {
-                                    <tr onclick="location.href = '@(Url.Action("Details", "Reservations", new { id = item.Id }))'" style="cursor: pointer">
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.TimeStart)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.TimeFinish)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ServiceCode)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.EstimatedCost)
-                                        </td>
-                                    </tr>
-                                }
-                                @for (var i = 0; i < (5 - Model.reservationsHistory.Count); i++)
-                                {
-                                    <tr>
-                                        <td>
-                                            --
-                                        </td>
-                                        <td>
-                                            --
-                                        </td>
-                                        <td>
-                                            --
-                                        </td>
-                                        <td>
-                                            --
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                    @if (Model.reservationsHistory.Count == 5)
-                    {
-                        <a class="btn btn-primary btn-xs pull-right" href="@Url.Action("Index", "Reservations")" role="button">
-                            <span class="glyphicon glyphicon-menu-right"></span> <b>View more</b>
-                        </a>
-                    }
-                </div>
+                }
             </div>
         </div>
     </div>
+</div>
 
+<div id="details-modal" class="modal fade" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function createModal(url) {
+        $('#details-modal .modal-content').load(url);
+        $('#details-modal').modal('show');
+    }
+</script>

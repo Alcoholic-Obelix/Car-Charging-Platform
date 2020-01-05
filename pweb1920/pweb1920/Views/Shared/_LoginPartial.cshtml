@@ -6,10 +6,24 @@
         @Html.AntiForgeryToken()
 
         <ul class="nav navbar-nav navbar-right">
-            <li>
-                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            <li class="dropdown @(ViewContext.RouteData.Values["controller"].ToString() == "Manage" ? "active" : "")">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <span class='glyphicon glyphicon-user'></span> @User.Identity.GetUserName()
+                    <span class="caret"></span>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown @(ViewContext.RouteData.Values["controller"].ToString() == "Manage" && ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")">
+                            <a href="@Url.Action("Index", "Manage")">
+                                Manage <span class="glyphicon glyphicon-wrench pull-right"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:document.getElementById('logoutForm').submit()">
+                                Log off <span class="glyphicon glyphicon-off pull-right"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </a> 
             </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
         </ul>
     }
 }

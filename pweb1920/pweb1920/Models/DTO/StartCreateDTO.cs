@@ -12,11 +12,15 @@ namespace pweb1920.Models.DTO
     {
         public SelectList DistrictDropDown { get; set; }
 
+        [Required]
         public int District { get; set; }
+        [Required]
         public int City { get; set; }
+        [Required]
         public int Station { get; set; }
 
         [DataType(DataType.Date)]
+        [Required]
         public DateTime Date { get; set; }
     }
 }

@@ -1,82 +1,161 @@
 ﻿@model pweb1920.Models.DTO.StationDetailsDTO
 
-@{
-    ViewBag.Title = "Station - Details";
+@{ 
+    ViewBag.Title = "Station details";
 }
 
+<style type="text/css">
+    div.station-details .row .col-md-4 p {
+        text-align: right;
+        font-weight: bold;
+        vertical-align: middle;
+    }
+
+    div.station-details {
+        max-width: 480px;
+        margin: auto;
+    }
+
+    .thumbnail {
+        min-height: 395px;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Search", "Stations")">
+                    <span class="glyphicon glyphicon-list"></span>
+                </a>
+            </li>
+            <li>
+                @Html.ActionLink(Model.Station.District, "Search", "Stations", new { district = Model.Station.Id }, null)
+            </li>
+            <li>
+                @Html.ActionLink(Model.Station.City, "Search", "Stations", new { district = Model.Station.Id, city = Model.Station.Id }, null)
+            </li>
+            <li class="active">
+                @Html.DisplayFor(model => Model.Station.Name)
+            </li>
+        </ol>
+    </div>
     <div class="row">
-        <div class="col-md-12">
-            <ol class="breadcrumb">
-                <li>
-                    <a href="@Url.Action("Search", "Stations")">
-                        <span class="glyphicon glyphicon-list"></span>
-                    </a>
-                </li>
-                <li>
-                    @Html.ActionLink(Model.Station.District, "Search", "Stations", new { district = Model.Station.Id }, null)
-                </li>
-                <li>
-                    @Html.ActionLink(Model.Station.City, "Search", "Stations", new { district = Model.Station.Id, city = Model.Station.Id }, null)
-                </li>
-                <li class="active">
-                    @Html.DisplayFor(model => Model.Station.Name)
-                </li>
-            </ol>
+        <div class="col-md-4">
+            <img class="img-responsive img-circle" src="~/Content/img/gas-station.jpg" style="border: 1px solid #ddd;" />
+        </div>
+        <div class="col-md-8">
             <h2>
                 <span>
                     Details
-                    <small>@Html.DisplayFor(model => Model.Station.Name)</small>
                 </span>
+                <a class="btn btn-primary btn-sm pull-right" href="@Url.Action("Index", "Stations")" role="button">
+                    <span class="glyphicon glyphicon-share-alt"></span> Back to List
+                </a>
                 @if (!User.IsInRole("Client"))
                 {
-                    <a class="btn btn-info btn-sm pull-right" href="@Url.Action("Edit", "Stations", new { id = Model.Station.Id })" role="button">
+                    <a class="btn btn-info btn-sm pull-right" href="@Url.Action("Edit", "Stations", new { id = Model.Station.Id })" role="button" style="margin-right: 10px;">
                         <span class="glyphicon glyphicon glyphicon-edit"></span> Edit
                     </a>
                 }
             </h2>
-            <dl class="dl-horizontal">
-                <dt>
-                    @Html.DisplayNameFor(model => model.Station.Name)
-                </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Station.Name)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Station.StreetAdress)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Station.StreetAdress)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Station.City)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Station.City)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Station.District)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Station.District)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Station.Status)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Station.Status)
-                </dd>
-            </dl>
-            <a class="btn btn-primary btn-sm pull-right" href="@Url.Action("Index", "Stations")" role="button">
-                <span class="glyphicon glyphicon-share-alt"></span> Back to List
-            </a>
+            <div class="station-details">
+                <div class="well row">
+                    <div class="col-md-4">
+                        <p>
+                            @Html.DisplayNameFor(model => model.Station.Name)
+                        </p>
+                    </div>
+                    <div class="col-md-8">
+                        <p>
+                            @Html.DisplayFor(model => model.Station.Name)
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <p>
+                            Open time
+                        </p>
+                    </div>
+                    <div class="col-md-8">
+                        <p>
+                            @Html.DisplayFor(model => model.Station.OpenTime) to @Html.DisplayFor(model => model.Station.CloseTime)
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <p>
+                            Address
+                        </p>
+                    </div>
+                    <div class="col-md-8">
+                        <p style="margin: 0;">
+                            @Html.DisplayFor(model => model.Station.StreetAdress), @Html.DisplayFor(model => model.Station.City) <br />
+                            @Html.DisplayFor(model => model.Station.District)
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>
+                        Charging points
+                    </h3>
+                    @if (Model.ChargingPoints.Count == 0)
+                    {
+                        <p>No Info.</p>
+                    }
+                </div>
+                @foreach (var item in Model.ChargingPoints)
+                {
+                    <div class="col-md-4">
+                        <div class="thumbnail">
+                            <div class="caption">
+                                <h4>
+                                    <b>CP-@Html.DisplayFor(modelItem => item.Id)</b>
+                                    <span class="badge pull-right" style="background-color: @(item.Status.Equals("On") ? "#419641" : "#c12e2a")">
+                                        @Html.DisplayFor(modelItem => item.Status)
+                                    </span>
+                                </h4>
+                                <h5>
+                                    @Html.DisplayFor(modelItem => item.ModeName) mode
+                                </h5>
+                                @if (item.ModeId == 1)
+                                {
+                                    <img class="img-responsive" src="~/Content/img/lightning-mode.jpg" />
+                                }
+                                else
+                                {
+                                    <img class="img-responsive" src="~/Content/img/express-mode.jpg" />
+                                }
+                                <p style="margin-top: 10px;">
+                                    @Html.DisplayFor(modelItem => item.ModeDescription)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="pull-right">
+                        Owned by <span class="btn-link" style="cursor:pointer;" onclick="createModal('@Url.Action("OwnerDetails", "Stations", new { id = Model.Station.Companies.Id })')">@Html.DisplayFor(e => Model.Station.Companies.Name)</span>
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
+</div>
+
+<div id="details-modal" class="modal fade" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function createModal(url) {
+        $('#details-modal .modal-content').load(url);
+        $('#details-modal').modal('show');
+    }
+</script>

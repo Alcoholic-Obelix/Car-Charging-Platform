@@ -1,11 +1,9 @@
 ﻿using pweb1920.DAL;
 using pweb1920.Models;
 using pweb1920.Models.DTO;
-using System;
-using System.Collections.Generic;
+using pweb1920.Models.ViewModels;
 using System.Linq;
 using System.Security.Claims;
-using System.Web;
 using System.Web.Mvc;
 
 namespace pweb1920.Controllers
@@ -44,9 +42,64 @@ namespace pweb1920.Controllers
                 {
                     var client = GetClient();
                     var indexClientDTO = new IndexClientDTO();
-                    indexClientDTO.myReservations = db.Reservations.Where(e => e.Client.Id == client.Id).Where(e => e.Status == ConstantValues.READY).Take(5).ToList();
-                    indexClientDTO.reservationsHistory = db.Reservations.Where(e => e.Client.Id == client.Id).Where(e => e.Status == ConstantValues.DONE).Take(5).ToList();
 
+               db.Reservations
+                .Join(db.ChargingPoints,
+                    reser => reser.ChargingPoint,
+                    charg => charg,
+                    (reser, charg) => new
+                    {
+                        Reser = reser,
+                        Charg = charg
+                    }
+                )
+                .Join(db.Stations,
+                    joined => joined.Charg.Station,
+                    stat => stat,
+                    (joined, stat) => new
+                    {
+                        Joined = joined,
+                        Stat = stat
+                    }
+                )
+                .OrderByDescending(e => e.Joined.Reser.Date)
+                .Where(e => e.Joined.Reser.Client.Id == client.Id)
+                .Where(e => e.Joined.Reser.Status == ConstantValues.READY)
+                .Select(e => new
+                {
+                    Reservation = e.Joined.Reser,
+                    StationName = e.Stat.Name
+                }).Take(5).ToList().ForEach(e => indexClientDTO.myReservations.Add(new ReservationDetailsViewModel(e.Reservation, e.StationName)));
+
+                    db.Reservations
+                .Join(db.ChargingPoints,
+                    reser => reser.ChargingPoint,
+                    charg => charg,
+                    (reser, charg) => new
+                    {
+                        Reser = reser,
+                        Charg = charg
+                    }
+                )
+                .Join(db.Stations,
+                    joined => joined.Charg.Station,
+                    stat => stat,
+                    (joined, stat) => new
+                    {
+                        Joined = joined,
+                        Stat = stat
+                    }
+                )
+                .OrderByDescending(e => e.Joined.Reser.Date)
+                .Where(e => e.Joined.Reser.Client.Id == client.Id)
+                .Where(e => e.Joined.Reser.Status == ConstantValues.DONE)
+                .Select(e => new
+                {
+                    Reservation = e.Joined.Reser,
+                    StationName = e.Stat.Name
+                }).Take(5).ToList().ForEach(e => indexClientDTO.reservationsHistory.Add(new ReservationDetailsViewModel(e.Reservation, e.StationName)));
+                    
+ 
                     return View("IndexClient", indexClientDTO);
                 }
                 else if (User.IsInRole("Company"))

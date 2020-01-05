@@ -48,7 +48,34 @@ namespace pweb1920.Controllers
         // GET: Reservations
         public ActionResult Index()
         {
-            return View(db.Reservations.ToList());
+            List<ReservationDetailsViewModel> reservations = new List<ReservationDetailsViewModel>();
+            
+            db.Reservations.Join(db.ChargingPoints,
+                    reser => reser.ChargingPoint,
+                    charg => charg,
+                    (reser, charg) => new
+                    {
+                        Reser = reser,
+                        Charg = charg
+                    }
+                )
+                .Join(db.Stations,
+                    joined => joined.Charg.Station,
+                    stat => stat,
+                    (joined, stat) => new
+                    {
+                        Joined = joined,
+                        Stat = stat
+                    }
+                )
+                .OrderByDescending(e => e.Joined.Reser.Date)
+                .Select(e => new
+                {
+                    Reservation = e.Joined.Reser,
+                    StationName = e.Stat.Name
+                }).ToList().ForEach(e => reservations.Add(new ReservationDetailsViewModel(e.Reservation, e.StationName)));
+            
+            return View(reservations);
         }
 
         // GET: Reservations/Details/5
@@ -58,12 +85,40 @@ namespace pweb1920.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ReservationDetailsViewModel reservation = new ReservationDetailsViewModel(db.Reservations.Find(id));
+
+            var result = db.Reservations
+                .Join(db.ChargingPoints,
+                    reser => reser.ChargingPoint,
+                    charg => charg,
+                    (reser, charg) => new
+                    {
+                        Reser = reser,
+                        Charg = charg
+                    }
+                )
+                .Join(db.Stations,
+                    joined => joined.Charg.Station,
+                    stat => stat,
+                    (joined, stat) => new
+                    {
+                        Joined = joined,
+                        Stat = stat
+                    }
+                )
+                .Where(e => e.Joined.Reser.Id == id)
+                .Select(e => new
+                {
+                    Reservation = e.Joined.Reser,
+                    StationName = e.Stat.Name
+                }).First();
+
+            ReservationDetailsViewModel reservation = new ReservationDetailsViewModel(result.Reservation, result.StationName);
+
             if (reservation == null)
             {
                 return HttpNotFound();
             }
-            return View(reservation);
+            return PartialView(reservation);
         }
 
         // GET: Reservations/Create
