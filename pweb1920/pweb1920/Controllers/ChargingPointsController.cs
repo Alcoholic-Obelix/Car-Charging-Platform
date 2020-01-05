@@ -13,6 +13,7 @@ using pweb1920.Models.ViewModels;
 
 namespace pweb1920.Controllers
 {
+    [Authorize(Roles = "Admin, Company")]
     public class ChargingPointsController : Controller
     {
         private ERDataModelContainer db = new ERDataModelContainer();

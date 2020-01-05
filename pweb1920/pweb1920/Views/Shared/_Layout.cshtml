@@ -25,6 +25,9 @@
                     {
                         if (User.IsInRole("Admin"))
                         {
+                            <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Clients" ? "active" : "")">
+                                @Html.ActionLink("Clients", "Index", "Clients")
+                            </li>
                             <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Companies" ? "active" : "")">
                                 @Html.ActionLink("Companies", "Index", "Companies")
                             </li>

@@ -11,6 +11,7 @@ using pweb1920.Models;
 
 namespace pweb1920.Controllers
 {
+    [Authorize(Roles = "Admin, Compamy")]
     public class CompaniesController : Controller
     {
         private ERDataModelContainer db = new ERDataModelContainer();

@@ -17,6 +17,7 @@ using pweb1920.Models.ViewModels;
 
 namespace pweb1920.Controllers
 {
+    [Authorize(Roles = "Client, Admin")]
     public class ReservationsController : Controller
     {
         private ERDataModelContainer db = new ERDataModelContainer();

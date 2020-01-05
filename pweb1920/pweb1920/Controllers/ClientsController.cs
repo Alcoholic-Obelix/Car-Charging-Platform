@@ -10,6 +10,7 @@ using pweb1920.DAL;
 
 namespace pweb1920.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ClientsController : Controller
     {
         private ERDataModelContainer db = new ERDataModelContainer();
