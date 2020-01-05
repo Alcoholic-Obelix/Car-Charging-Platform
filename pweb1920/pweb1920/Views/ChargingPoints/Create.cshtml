@@ -1,4 +1,4 @@
-﻿@model pweb1920.DAL.ChargingPoint
+﻿@model pweb1920.Models.DTO.CreateChargingPointDTO
 
 @{
     ViewBag.Title = "Create";
@@ -6,27 +6,24 @@
 
 <h2>Create</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create", "ChargingPoints", FormMethod.Post, new { @class = "form-horizontal" }))
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>ChargingPoint</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
+    <div class="form-group">
+        <label class="control-label col-md-2" for="ChargingModeId">Charging Modes</label>
+        @foreach (var mode in Model.ChargingModesList)
+        {
+            <label class="radio-inline">
+                <input type="radio" name="ChargingModeId" value="@mode.Id" required>@mode.Name
+            </label>
+        }
+    </div>
+
+    <div class="form-group">
+        <input type="hidden" name="StationId" value="@Model.StationId" />
+        <input type="submit" value="Create" class="btn btn-default" />
     </div>
 }
 

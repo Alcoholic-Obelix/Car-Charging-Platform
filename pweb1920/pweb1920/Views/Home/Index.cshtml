@@ -2,57 +2,140 @@
     ViewBag.Title = "Home";
 }
 
-<div class="jumbotron">
-    <h1>iCharge U</h1>
-    <p class="lead">
-        A 1ª plataforma online que permite que todos os donos de veículos electricos possa ter em seu poder todo
-        o conhecimento sobre onde podem carregar as suas viaturas.
-    </p>
-    <p>Registre-se e faça login na nossa plataforma para ter acesso a todo o conteúdo.</p>
+<style>
+
+    .bg-1 {
+        margin-top: -20px;
+        padding: 50px 20px 50px 20px;
+        background-color: #1abc9c; /* Green */
+        color: #ffffff;
+    }
+
+    .bg-2 {
+        margin-top: 0;
+        padding: 50px 20px 50px 20px;
+        background-color: #474e5d; /* Dark Blue */
+        color: #ffffff;
+    }
+    .bg-3 {
+        margin-top: 0;
+        padding: 50px 20px 50px 20px;
+        background-color: #2f2f2f; /* Black Gray */
+        color: #fff;
+    }
+
+    div.row.display-flex {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+        div.row.display-flex > [class*='col-'] {
+            flex-grow: 1;
+        }
+
+    div.same-size {
+        align-items: flex-start;
+        display: flex;
+    }
+</style>
+
+<div class="bg-1">
+    <div class="row">
+        <div class="col-md-8">
+            <h1>iCharge U</h1>
+            <p class="lead">
+
+                The 1st online platform that allows all electric vehicle owners to have all the knowledge about where they can charge their vehicles.
+            </p>
+            <p>
+                Register and login to our platform to access all content.
+            </p>
+        </div>
+        <div class="col-md-4">
+            <img src="~/Content/img/home-1.jpg" class="img-responsive img-circle" style="display:inline" />
+        </div>
+    </div>
+</div>
+<div id="made-by-section" class="bg-2">
+    <h2>Made by</h2>
+    <div class="row same-size">
+        <div class="col-md-8">
+            <div class="media">
+                <div class="media-left">
+                    <img class="media-object" src="~/Content/img/cp.jpg" />
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">Carlos Pinho</h4>
+                    <p>
+                        Student Number: 21220528
+                        <br />
+                        a21220528@isec.pt
+                    </p>
+                </div>
+            </div>
+            <div class="media">
+                <div class="media-left">
+                    <img class="media-object" src="~/Content/img/rr.jpg" />
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">Ricardo Reis</h4>
+                    <p>
+                        Student Number: 21240456
+                        <br />
+                        a21240456@isec.pt
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 text-center">
+            <p>
+                <br />
+                Instituto Superior de Engenharia de Coimbra
+                <br />
+                <span class="small">
+                    Departamento de Engenharia de Informação e Sistemas
+                </span>
+                <br />
+                <br />
+                Licenciatura em Engenharia Informática 2019/20
+                <br />
+                <span class="small">
+                    Ramo de Desenvolvimento de Aplicações
+                </span>
+            </p>
+        </div>
+    </div>
 </div>
 
+<div id="contact-section" class="bg-3">
+    <h3>Contact</h3>
+    <div class="row">
+        <div class="col-md-8">
+            <form action="#">
+                <div class="form-group">
+                    <label for="email">Email address:</label>
+                    <input type="email" class="form-control" id="email" style="min-width: 100%;">
+                </div>
+                <div class="form-group">
+                    <label for="comment">Comment:</label>
+                    <textarea class="form-control" rows="3" id="comment" style="min-width: 100%;"></textarea>
+                </div>
+                <button type="submit" class="btn btn-default pull-right" onclick="alert('Not implemented.')">Submit</button>
+            </form>
+        </div>
+        <div class="col-md-4 vcenter">
+            <h3 class="h3">Address</h3>
+            <address>
+                One Microsoft Way<br />
+                Redmond, WA 98052-6399<br />
+                <abbr title="Phone">P:</abbr>
+                425.555.0100
+            </address>
 
-<div id="about-section" class="row">
-    <div class="col-md-8">
-        <h2>About</h2>
-        <h3>@ViewBag.Message</h3>
-
-        <p>Use this area to provide additional information.</p>
-    </div>
-    <div class="col-md-4">
-        //TODO put image
-    </div>
-</div>
-
-<div id="contact-section" class="row">
-    <div class="col-md-12">
-        <h2>Contact</h2>
-    </div>
-    <div class="col-md-8">
-        <form action="#">
-            <div class="form-group">
-                <label for="email">Email address:</label>
-                <input type="email" class="form-control" id="email" style="min-width: 100%;">
-            </div>
-            <div class="form-group">
-                <label for="comment">Comment:</label>
-                <textarea class="form-control" rows="3" id="comment" style="min-width: 100%;"></textarea>
-            </div>
-            <button type="submit" class="btn btn-default pull-right">Submit</button>
-        </form>
-    </div>
-    <div class="col-md-4 vcenter">
-        <h3 class="h3">Address</h3>
-        <address>
-            One Microsoft Way<br />
-            Redmond, WA 98052-6399<br />
-            <abbr title="Phone">P:</abbr>
-            425.555.0100
-        </address>
-
-        <address>
-            <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-            <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-        </address>
+            <address>
+                <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
+                <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
+            </address>
+        </div>
     </div>
 </div>

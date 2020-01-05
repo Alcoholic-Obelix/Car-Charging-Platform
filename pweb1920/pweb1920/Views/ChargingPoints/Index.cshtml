@@ -1,33 +1,97 @@
-﻿@model IEnumerable<pweb1920.DAL.ChargingPoint>
+﻿@model IEnumerable<pweb1920.Models.ViewModels.MyChargingPointsViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "My Charging Points";
 }
 
-<h2>Index</h2>
+<style type="text/css">
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Status)
-        </th>
-        <th></th>
-    </tr>
+    table th {
+        text-align: center;
+    }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    div.row.display-flex {
+        display: flex;
+        flex-wrap: wrap;
+    }
 
-</table>
+        div.row.display-flex > [class*='col-'] {
+            flex-grow: 1;
+        }
+
+    div.imaged {
+        background-image: url('../../Content/img/charging-inverse.jpeg');
+        background-repeat: no-repeat;
+        background-position: top center;
+        background-size: contain;
+        align-items: flex-end;
+        display: flex;
+        margin-bottom: 22px;
+        padding-bottom: -2px;
+        overflow: hidden;
+        border-top: 1px solid #ddd;
+    }
+</style>
+
+<div class="row display-flex">
+    <div class="col-md-4 imaged">
+    </div>
+    <div class="col-md-8" style="padding-right: 50px;">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>
+                    <span>@ViewBag.Title</span>
+                </h2>
+
+                @foreach (var station in Model)
+                {
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>
+                                <a class="btn btn-default btn-sm" href="@Url.Action("Details", "Stations", new { id = station.Station.Id })" role="button">
+                                    <span class="glyphicon glyphicon-new-window"></span>
+                                </a>
+                                @station.Station.Name
+                            </h3>
+
+                            @if (station.ChargingPoints.Count == 0)
+                            {
+                                <p>No charging point associated.</p>
+                            }
+                        </div>
+
+                        @foreach (var item in station.ChargingPoints)
+                        {
+                            <div class="col-md-4">
+                                <div class="thumbnail">
+                                    <div class="caption">
+                                        <h4>
+                                            <b>CP-@Html.DisplayFor(modelItem => item.Id)</b>
+                                            <span class="badge pull-right" style="background-color: @(item.Status.Equals("On") ? "#419641" : "#c12e2a")">
+                                                @Html.DisplayFor(modelItem => item.Status)
+                                            </span>
+                                        </h4>
+                                        <h5>
+                                            @Html.DisplayFor(modelItem => item.ModeName) mode
+                                        </h5>
+                                        @if (item.ModeId == 1)
+                                        {
+                                            <img class="img-responsive" src="~/Content/img/lightning-mode.jpg" />
+                                        }
+                                        else
+                                        {
+                                            <img class="img-responsive" src="~/Content/img/express-mode.jpg" />
+                                        }
+                                        <p style="margin-top: 10px;">
+                                            @Html.DisplayFor(modelItem => item.ModeDescription)
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

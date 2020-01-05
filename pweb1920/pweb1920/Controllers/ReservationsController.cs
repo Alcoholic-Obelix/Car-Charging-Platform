@@ -48,34 +48,70 @@ namespace pweb1920.Controllers
         // GET: Reservations
         public ActionResult Index()
         {
-            List<ReservationDetailsViewModel> reservations = new List<ReservationDetailsViewModel>();
-            
-            db.Reservations.Join(db.ChargingPoints,
-                    reser => reser.ChargingPoint,
-                    charg => charg,
-                    (reser, charg) => new
+            if (User.IsInRole("Admin"))
+            {
+                List<ReservationDetailsViewModel> reservations = new List<ReservationDetailsViewModel>();
+
+                db.Reservations.Join(db.ChargingPoints,
+                        reser => reser.ChargingPoint,
+                        charg => charg,
+                        (reser, charg) => new
+                        {
+                            Reser = reser,
+                            Charg = charg
+                        }
+                    )
+                    .Join(db.Stations,
+                        joined => joined.Charg.Station,
+                        stat => stat,
+                        (joined, stat) => new
+                        {
+                            Joined = joined,
+                            Stat = stat
+                        }
+                    )
+                    .OrderByDescending(e => e.Joined.Reser.Date)
+                    .Select(e => new
                     {
-                        Reser = reser,
-                        Charg = charg
-                    }
-                )
-                .Join(db.Stations,
-                    joined => joined.Charg.Station,
-                    stat => stat,
-                    (joined, stat) => new
+                        Reservation = e.Joined.Reser,
+                        StationName = e.Stat.Name
+                    }).ToList().ForEach(e => reservations.Add(new ReservationDetailsViewModel(e.Reservation, e.StationName)));
+
+                return View(reservations);
+            }
+            else
+            {
+                var client = GetClient();
+                List<ReservationDetailsViewModel> reservations = new List<ReservationDetailsViewModel>();
+
+                db.Reservations.Join(db.ChargingPoints,
+                        reser => reser.ChargingPoint,
+                        charg => charg,
+                        (reser, charg) => new
+                        {
+                            Reser = reser,
+                            Charg = charg
+                        }
+                    )
+                    .Join(db.Stations,
+                        joined => joined.Charg.Station,
+                        stat => stat,
+                        (joined, stat) => new
+                        {
+                            Joined = joined,
+                            Stat = stat
+                        }
+                    )
+                    .Where(e => e.Joined.Reser.Client.Id == client.Id)
+                    .OrderByDescending(e => e.Joined.Reser.Date)
+                    .Select(e => new
                     {
-                        Joined = joined,
-                        Stat = stat
-                    }
-                )
-                .OrderByDescending(e => e.Joined.Reser.Date)
-                .Select(e => new
-                {
-                    Reservation = e.Joined.Reser,
-                    StationName = e.Stat.Name
-                }).ToList().ForEach(e => reservations.Add(new ReservationDetailsViewModel(e.Reservation, e.StationName)));
-            
-            return View(reservations);
+                        Reservation = e.Joined.Reser,
+                        StationName = e.Stat.Name
+                    }).ToList().ForEach(e => reservations.Add(new ReservationDetailsViewModel(e.Reservation, e.StationName)));
+
+                return View(reservations);
+            }
         }
 
         // GET: Reservations/Details/5

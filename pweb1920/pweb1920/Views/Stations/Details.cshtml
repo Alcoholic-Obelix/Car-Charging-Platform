@@ -1,6 +1,6 @@
 ﻿@model pweb1920.Models.DTO.StationDetailsDTO
 
-@{ 
+@{
     ViewBag.Title = "Station details";
 }
 
@@ -52,7 +52,7 @@
                 <a class="btn btn-primary btn-sm pull-right" href="@Url.Action("Index", "Stations")" role="button">
                     <span class="glyphicon glyphicon-share-alt"></span> Back to List
                 </a>
-                @if (!User.IsInRole("Client"))
+                @if (User.IsInRole("Admin") || (User.IsInRole("Company") && Model.CurrentCompanyIdentityId.Equals(Model.Station.Companies.IdentityId)))
                 {
                     <a class="btn btn-info btn-sm pull-right" href="@Url.Action("Edit", "Stations", new { id = Model.Station.Id })" role="button" style="margin-right: 10px;">
                         <span class="glyphicon glyphicon glyphicon-edit"></span> Edit
@@ -99,6 +99,12 @@
                 <div class="col-md-12">
                     <h3>
                         Charging points
+                        @if ((User.IsInRole("Company") && Model.CurrentCompanyIdentityId.Equals(Model.Station.Companies.IdentityId)))
+                        {
+                            <a class="btn btn-success btn-sm pull-right" href="@Url.Action("Create", "ChargingPoints", new { station_id = Model.Station.Id })" role="button" style="margin-right: 10px;">
+                                <span class="glyphicon glyphicon glyphicon-plus"></span> Add
+                            </a>
+                        }
                     </h3>
                     @if (Model.ChargingPoints.Count == 0)
                     {
@@ -135,13 +141,16 @@
                     </div>
                 }
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <p class="pull-right">
-                        Owned by <span class="btn-link" style="cursor:pointer;" onclick="createModal('@Url.Action("OwnerDetails", "Stations", new { id = Model.Station.Companies.Id })')">@Html.DisplayFor(e => Model.Station.Companies.Name)</span>
-                    </p>
+            @if (!User.IsInRole("Company"))
+            {
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="pull-right">
+                            Owned by <span class="btn-link" style="cursor:pointer;" onclick="createModal('@Url.Action("OwnerDetails", "Stations", new { id = Model.Station.Companies.Id })')">@Html.DisplayFor(e => Model.Station.Companies.Name)</span>
+                        </p>
+                    </div>
                 </div>
-            </div>
+            }
         </div>
     </div>
 </div>

@@ -228,14 +228,17 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ConstantValues.cs" />
     <Compile Include="Models\DTO\ChargingPointDTO.cs" />
+    <Compile Include="Models\DTO\CreateChargingPointDTO.cs" />
     <Compile Include="Models\DTO\IndexCompanyDTO.cs" />
     <Compile Include="Models\DTO\ShowFreeSlotsDTO.cs" />
     <Compile Include="Models\DTO\StartCreateDTO.cs" />
     <Compile Include="Models\DTO\IndexClientDTO.cs" />
     <Compile Include="Models\DTO\IndexStationDTO.cs" />
     <Compile Include="Models\DTO\StationDetailsDTO.cs" />
+    <Compile Include="Models\DTO\StationDTO.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ViewModels\MyChargingPointsViewModel.cs" />
     <Compile Include="Models\ViewModels\ReservationDetailsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -250,10 +253,15 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap_cosmo.css" />
+    <Content Include="Content\img\charging-inverse.jpeg" />
     <Content Include="Content\img\charging.jpeg" />
+    <Content Include="Content\img\cp.jpg" />
     <Content Include="Content\img\express-mode.jpg" />
     <Content Include="Content\img\gas-station.jpg" />
+    <Content Include="Content\img\home-1.jpg" />
+    <Content Include="Content\img\isec.png" />
     <Content Include="Content\img\lightning-mode.jpg" />
+    <Content Include="Content\img\rr.jpg" />
     <Content Include="DAL\ERDataModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ERDataModel.Context.cs</LastGenOutput>

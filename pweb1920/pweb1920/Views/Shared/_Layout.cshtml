@@ -72,8 +72,22 @@
                         }
                         else if (User.IsInRole("Company"))
                         {
-                            <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Stations" ? "active" : "")">
-                                @Html.ActionLink("Stations", "Index", "Stations")
+                            <li class="dropdown @(ViewContext.RouteData.Values["controller"].ToString() == "Stations" ? "active" : "")">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    Stations
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Stations" && ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")">
+                                        @Html.ActionLink("List", "Index", "Stations")
+                                    </li>
+                                    <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Stations" && ViewContext.RouteData.Values["action"].ToString() == "Search" ? "active" : "")">
+                                        @Html.ActionLink("Search", "Search", "Stations")
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "ChargingPoints" ? "active" : "")">
+                                @Html.ActionLink("My Charging Points", "Index", "ChargingPoints")
                             </li>
                         }
                     }
@@ -81,7 +95,7 @@
                     {
 
                         <li class="@(ViewContext.RouteData.Values["action"].ToString() == "About" ? "active" : "")">
-                            <a href="#about-section">About</a>
+                            <a href="#made-by-section">Made By</a>
                         </li>
                         <li class="@(ViewContext.RouteData.Values["action"].ToString() == "Contact" ? "active" : "")">
                             <a href="#contact-section">Contact</a>

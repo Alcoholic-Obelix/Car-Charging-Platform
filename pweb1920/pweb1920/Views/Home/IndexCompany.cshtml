@@ -9,74 +9,87 @@
     table th {
         text-align: center;
     }
+
+        div.row.display-flex {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    div.row.display-flex > [class*='col-'] {
+        flex-grow: 1;
+    }
+    div.imaged {
+        background-image: url('../../Content/img/charging.jpeg');
+        background-repeat: no-repeat;
+        background-position: bottom center;
+        background-size: contain;
+        align-items: flex-end;
+        display: flex;
+        margin-bottom: 22px;
+        padding-bottom: -2px;
+        overflow: hidden;
+        border-bottom: 1px solid #ddd;
+    }
 </style>
 
-<div class="row">
-    <div class="col-md-12">
-        <h2>
-            <span>My Stations</span>
-            <a class="btn btn-success btn-sm pull-right" href="@Url.Action("Create", "Stations")" role="button">
-                <span class="glyphicon glyphicon glyphicon-plus"></span> Add Station
-            </a>
-        </h2>
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover text-center">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.myStations.FirstOrDefault().District)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.myStations.FirstOrDefault().City)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.myStations.FirstOrDefault().Name)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.myStations.FirstOrDefault().Status)
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.myStations)
-                    {
-                        <tr onclick="location.href = '@(Url.Action("Details", "Stations", new { id = item.Id }))'" style="cursor: pointer">
-                            <td>
-                                @Html.DisplayFor(modelItem => item.District)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.City)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Status)
-                            </td>
-                        </tr>
-                    }
-                    @for (var i = 0; i < (10 - Model.myStations.Count); i++)
-                    {
-                        <tr>
-                            <td>
-                                --
-                            </td>
-                            <td>
-                                --
-                            </td>
-                            <td>
-                                --
-                            </td>
-                            <td>
-                                --
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+<div class="row display-flex">
+    <div class="col-md-8" style="padding-right: 50px;">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>
+                    <span>My Stations</span>
+                    <a class="btn btn-success btn-sm pull-right" href="@Url.Action("Create", "Stations")" role="button">
+                        <span class="glyphicon glyphicon glyphicon-plus"></span> Add Station
+                    </a>
+                </h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover text-center">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.myStations.FirstOrDefault().Name)
+                                </th>
+                                <th>
+                                    Address
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.myStations.FirstOrDefault().Status)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.myStations)
+                            {
+                                <tr onclick="location.href = '@(Url.Action("Details", "Stations", new { id = item.Id }))'" style="cursor: pointer">
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.StreetAdress),
+                                        @Html.DisplayFor(modelItem => item.City).&nbsp;
+                                        @Html.DisplayFor(modelItem => item.District).
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Status)
+                                    </td>
+                                </tr>
+                            }
+                            @for (var i = 0; i < (10 - Model.myStations.Count); i++)
+                            {
+                                <tr>
+                                    <td colspan="3">
+                                        &nbsp;
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <a class="btn btn-primary btn-xs pull-right" href="@Url.Action("Index", "Stations")" role="button">
+                    <span class="glyphicon glyphicon-menu-right"></span> <b>View All</b>
+                </a>
+            </div>
         </div>
-        <a class="btn btn-primary btn-xs pull-right" href="@Url.Action("Index", "Stations")" role="button">
-            <span class="glyphicon glyphicon-menu-right"></span> <b>View more</b>
-        </a>
+    </div>
+    <div class="col-md-4 imaged">
     </div>
 </div>

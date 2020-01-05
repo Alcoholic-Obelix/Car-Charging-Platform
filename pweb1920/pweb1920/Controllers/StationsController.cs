@@ -46,8 +46,6 @@ namespace pweb1920.Controllers
         {
             if (User.IsInRole("Admin"))
             {
-                var company = GetCompany();
-
                 var myStations = db.Stations.ToList();
 
                 var indexCompanyDTO = new IndexCompanyDTO();
@@ -55,8 +53,9 @@ namespace pweb1920.Controllers
 
                 return View("../Home/IndexCompany", indexCompanyDTO);
             }
-            else
-            return View(db.Stations.ToList());
+
+            var StationDTO = new StationDTO(db.Stations.Where(e => e.Status == "Accepted" || e.Status == "accepted").ToList());
+            return View(StationDTO);
         }
 
         public ActionResult OwnerDetails(int id)
@@ -107,7 +106,14 @@ namespace pweb1920.Controllers
         // GET: Stations/Details/5
         public ActionResult Details(int id)
         {
-            var stationDTO = new StationDetailsDTO(db.Stations.Find(id));
+            
+            var identityStr = "";
+            if (User.IsInRole("Company"))
+            {
+                var cc = GetCompany();
+                identityStr = cc.IdentityId;
+            }
+            var stationDTO = new StationDetailsDTO(identityStr, db.Stations.Find(id));
             var result = db.ChargingPoints
                 .Where(e => e.Station.Id == stationDTO.Station.Id)
                 .Select(e => new {

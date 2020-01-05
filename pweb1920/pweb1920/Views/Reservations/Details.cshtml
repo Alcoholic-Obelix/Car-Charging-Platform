@@ -1,6 +1,6 @@
 ﻿@model pweb1920.Models.ViewModels.ReservationDetailsViewModel
 <style type="text/css">
-    div.modal-body .row .col-md-4 p{
+    div.modal-body .row .col-md-4 p {
         text-align: right;
         font-weight: bold;
     }
@@ -73,3 +73,11 @@
         </div>
     </div>
 </div>
+@if (User.IsInRole("Admin"))
+{
+<div class="modal-footer">
+    <a class="btn btn-info btn-sm pull-right" href="@Url.Action("Edit", "Reservations", new { id = Model.Id })" role="button">
+        <span class="glyphicon glyphicon glyphicon-edit"></span> Edit
+    </a>
+</div>
+}

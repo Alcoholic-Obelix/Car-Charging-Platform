@@ -4,9 +4,12 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using pweb1920.DAL;
+using pweb1920.Models.DTO;
+using pweb1920.Models.ViewModels;
 
 namespace pweb1920.Controllers
 {
@@ -14,10 +17,47 @@ namespace pweb1920.Controllers
     {
         private ERDataModelContainer db = new ERDataModelContainer();
 
+        public Company GetCompany()
+        {
+            //vai buscar o ID do utilizador atual
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            var userIdClaim = claimsIdentity.Claims
+                    .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+            var userIdValue = userIdClaim.Value;
+            var company = db.Companies.Where(m => m.IdentityId == userIdValue).FirstOrDefault();
+
+            return company;
+        }
+
         // GET: ChargingPoints
         public ActionResult Index()
         {
-            return View(db.ChargingPoints.ToList());
+            Company cc = GetCompany();
+            List<MyChargingPointsViewModel> cp = new List<MyChargingPointsViewModel>();
+            var sList = db.Stations.Where(e => e.Companies.Id == cc.Id).ToList();
+
+            foreach (var station in sList)
+            {
+                var cpList = db.ChargingPoints
+                .Where(e => e.Station.Id == station.Id)
+                .Select(e => new {
+                    Id = e.Id,
+                    Status = e.Status,
+                    ModeId = e.ChargingModes.FirstOrDefault().Id,
+                    ModeName = e.ChargingModes.FirstOrDefault().Name,
+                    ModeDescription = e.ChargingModes.FirstOrDefault().Description
+                }).ToList();
+
+                List<ChargingPointDTO> cpDtoList = new List<ChargingPointDTO>();
+                foreach (var cpItem in cpList)
+                {
+                    cpDtoList.Add(new ChargingPointDTO(cpItem.Id, cpItem.Status, cpItem.ModeId, cpItem.ModeName, cpItem.ModeDescription));
+                }
+
+                cp.Add(new MyChargingPointsViewModel(station, cpDtoList));
+            }
+
+            return View(cp);
         }
 
         // GET: ChargingPoints/Details/5
@@ -36,9 +76,9 @@ namespace pweb1920.Controllers
         }
 
         // GET: ChargingPoints/Create
-        public ActionResult Create()
+        public ActionResult Create(int station_id)
         {
-            return View();
+            return View(new CreateChargingPointDTO(station_id, db.ChargingModes.ToList()));
         }
 
         // POST: ChargingPoints/Create
@@ -46,16 +86,25 @@ namespace pweb1920.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Status")] ChargingPoint chargingPoint)
+        public ActionResult Create(int ChargingModeId, int StationId)
         {
             if (ModelState.IsValid)
             {
+                var chargingMode = db.ChargingModes.Where(e => e.Id == ChargingModeId).FirstOrDefault();
+                var station = db.Stations.Where(e => e.Id == StationId).FirstOrDefault();
+                
+                var chargingPoint = new ChargingPoint();
+
+                chargingPoint.Status = "On";
+                chargingPoint.Station = station;
+                chargingPoint.ChargingModes.Add(chargingMode);
+
                 db.ChargingPoints.Add(chargingPoint);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Stations", new { sucess = 1 });
             }
 
-            return View(chargingPoint);
+            return View();
         }
 
         // GET: ChargingPoints/Edit/5
